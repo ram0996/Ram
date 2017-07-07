@@ -1,0 +1,9 @@
+#Ant properties
+#Wed Apr 12 16:23:15 CEST 2017
+builddate=20170412 1622
+description=fashionstorefront
+name=fashionstorefront
+releasedate=20161216 2030
+vendor=hybris
+version=6.3.0.4
+version.api=6.3.0
