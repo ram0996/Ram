@@ -483,4 +483,36 @@
 	<import resource="/fashioncore/processes/quote/quote-salesrep-process-spring.xml"/>
 	<import resource="/fashioncore/processes/quote/quote-seller-approval-process-spring.xml"/>
 	
+	
+	
+	<bean id="fashionCategorySource" parent="abstractCategorySource">
+		<property name="rootCategory" value="categories"/>
+		<!-- 'categories' is the root fashion category -->
+	</bean>
+	<bean id="fashionBrandCategorySource" parent="abstractCategorySource">
+		<property name="rootCategory" value="brands"/>
+		<!-- 'brands' is the root of the brands hierarchy -->
+	</bean>
+	<bean id="fashionCollectionCategorySource" parent="abstractCategorySource">
+		<property name="rootCategory" value="collections"/> <!-- 'collections' is the root of the collections hierarchy -->
+	</bean>
+	
+	<bean id="fashionCategoryCodeValueProvider" parent="abstractCategoryCodeValueProvider">
+		<property name="categorySource" ref="fashionCategorySource"/>
+	</bean>
+	<bean id="fashionBrandCategoryCodeValueProvider" parent="abstractCategoryCodeValueProvider">
+		<property name="categorySource" ref="fashionBrandCategorySource"/>
+	</bean>
+	<bean id="fashionCollectionCategoryCodeValueProvider" parent="abstractCategoryCodeValueProvider">
+		<property name="categorySource" ref="fashionCollectionCategorySource"/>
+	</bean>
+	<bean id="fashionCategoryNameValueProvider" parent="abstractCategoryNameValueProvider">
+		<property name="categorySource" ref="fashionCategorySource"/>
+	</bean>
+	<bean id="fashionBrandCategoryNameValueProvider" parent="abstractCategoryNameValueProvider">
+		<property name="categorySource" ref="fashionBrandCategorySource"/>
+	</bean>
+	<bean id="fashionCollectionCategoryNameValueProvider" parent="abstractCategoryNameValueProvider">
+		<property name="categorySource" ref="fashionCollectionCategorySource"/>
+	</bean>
 </beans>
