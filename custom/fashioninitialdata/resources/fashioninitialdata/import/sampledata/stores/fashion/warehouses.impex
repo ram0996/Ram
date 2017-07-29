@@ -14,9 +14,10 @@
 #% impex.setLocale( Locale.GERMAN );
 
 # Macros / Replacement Parameter definitions
-$storeUid=__STORE_UID__
+$storeUid=fashion
 
 INSERT_UPDATE BaseStore2WarehouseRel;source(uid)[unique=true];target(code)[unique=true]
+;$storeUid;warehouse_c
 
 INSERT_UPDATE PointOfService;name[unique=true];displayName;warehouses(code);address(&addrID);latitude;longitude;geocodeTimestamp[dateformat=dd.MM.yyyy];type(code)[default=WAREHOUSE]
 

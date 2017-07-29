@@ -1,23 +1,69 @@
-# -----------------------------------------------------------------------
-# [y] hybris Platform
-#
-# Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
-#
-# This software is the confidential and proprietary information of SAP
-# ("Confidential Information"). You shall not disclose such Confidential
-# Information and shall use it only in accordance with the terms of the
-# license agreement you entered into with SAP.
-# -----------------------------------------------------------------------
-# ImpEx for Importing Products
-
+# ImpEx for Importing Products into Fashion  store
+  
 # Macros / Replacement Parameter definitions
-$productCatalog=__PRODUCT_CATALOG_NAME__
-$productCatalogName=__PRODUCT_CATALOG_FULL_NAME__
-
+$productCatalog=fashionProductCatalog
+  
+  
 $catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
 $supercategories=supercategories(code, $catalogVersion)
-$baseProduct=baseProduct(code,$catalogVersion)
-$approved=approvalstatus(code)[default='check']
+$baseProduct=baseProduct(code, catalogVersion(catalog(id[default='$productCatalog']),version[default='Staged']))
+$approved=approvalstatus(code)[default='approved']
+$taxGroup=Europe1PriceFactory_PTG(code)[default=jp-vat-full]
 
-# Insert Products
-INSERT_UPDATE Product;code[unique=true];$supercategories;manufacturerName;manufacturerAID;unit(code);ean;variantType(code);$catalogVersion;$approved
+# Create products
+INSERT_UPDATE Product;code[unique=true];$catalogVersion;unit(code);supercategories(code,$catalogVersion);varianttype(code);$approved;$taxGroup
+;0111;;pieces;110;FashionSizeVariantProduct
+;S0112;;pieces;110;FashionStyleVariantProduct
+;S0121;;pieces;120;FashionStyleVariantProduct
+;0123;;pieces;120;FashionSizeVariantProduct
+;S0131;;pieces;130;FashionStyleVariantProduct
+;0133;;pieces;130;FashionSizeVariantProduct
+;S0211;;pieces;210;FashionStyleVariantProduct
+;0213;;pieces;210;
+;S0221;;pieces;220;FashionStyleVariantProduct
+;0223;;pieces;220;FashionSizeVariantProduct
+;0231;;pieces;230;FashionSizeVariantProduct
+;0232;;pieces;230;FashionSizeVariantProduct
+;0233;;pieces;230;FashionSizeVariantProduct
+
+
+
+
+# Create FashionStyleVariantProduct variants
+INSERT_UPDATE FashionStyleVariantProduct;code[unique=true];$catalogVersion;$baseProduct;supercategories(code,$catalogVersion);swatchColors(code);unit(code)[default='pieces'];varianttype(code);$approved
+;B0115;;S0112;110;BLUE;;FashionSizeVariantProduct;;
+;R0115;;S0112;110;RED;;FashionSizeVariantProduct;;
+;B0121;;S0121;120;BLUE;;FashionSizeVariantProduct;;
+;W0122;;S0121;120;WHITE;;FashionSizeVariantProduct;;
+;R0131;;S0131;130;RED;;FashionSizeVariantProduct;;
+;B0132;;S0131;130;BLACK;;FashionSizeVariantProduct;;
+;P0211;;S0211;210;PINK;;
+;G0212;;S0211;210;GREEN;;
+;B0221;;S0221;220;BLACK;;FashionSizeVariantProduct;;
+;0221B;;S0221;220;BLUE;;FashionSizeVariantProduct;;
+
+# Create FashionSizeVariantProduct variants
+INSERT_UPDATE FashionSizeVariantProduct;code[unique=true];$catalogVersion;$baseProduct;supercategories(code,$catalogVersion);unit(code)[default='pieces'];;$approved;$taxGroup
+;550_S;;B0115;110;;
+;550_M;;B0115;110;;
+;552_M;;R0115;110;;
+;552_L;;R0115;110;;
+;553_M;;B0121;120;;
+;553_L;;B0121;120;;
+;554_L;;W0122;120;;
+;554_XL;;W0122;120;;
+;555_L;;R0131;130;;
+;555_S;;R0131;130;;
+;555_M;;R0131;130;;
+;556_M;;B0132;130;;
+;557_L;;B0221;220;;
+;557_M;;B0221;220;;
+;558_XL;;0221B;220;;
+;558_L;;0221B;220;;
+;0111_M;;0111;110;;
+;0123_M;;0123;120;;
+;0133_L;;0133;130;;
+;0231_M;;0231;230;;
+;0232_M;;0232;230;;
+;0233_L;;0233;230;;
+;0223_C;;0223;220;;

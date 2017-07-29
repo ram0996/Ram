@@ -17,7 +17,7 @@ $storeName=__CONTENT_CATALOG_NAME__
 $catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
 $media=@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator]
 $medias=medias(code, $catalogVersion)
-$siteResource=jar:com.cg.fashion.initialdata.setup.InitialDataSystemSetup&/fashioninitialdata/import/store/$storeName
+$siteResource=jar:org.training.initialdata.setup.InitialDataSystemSetup&/traininginitialdata/import/store/$storeName
 
 # Create Media
 INSERT_UPDATE Media;mediaFormat(qualifier);;code[unique=true];$media;mime[default='image/jpeg'];$catalogVersion;folder(qualifier)

@@ -24,9 +24,9 @@ $image=image(code, $contentCV);
 $media=media(code, $contentCV);
 $page=page(uid, $contentCV);
 $contentPage=contentPage(uid, $contentCV);
-$siteResource=jar:com.cg.fashion.initialdata.setup.InitialDataSystemSetup&/fashioninitialdata/import/contentCatalogs/$contentCatalog
-$productResource=jar:com.cg.fashion.initialdata.setup.InitialDataSystemSetup&/fashioninitialdata/import/productCatalogs/$productCatalog
-$jarResourceCms=jar:com.cg.fashion.initialdata.setup.InitialDataSystemSetup&/fashioninitialdata/import/cockpits/cmscockpit
+$siteResource=jar:org.training.initialdata.setup.InitialDataSystemSetup&/traininginitialdata/import/contentCatalogs/$contentCatalog
+$productResource=jar:org.training.initialdata.setup.InitialDataSystemSetup&/traininginitialdata/import/productCatalogs/$productCatalog
+$jarResourceCms=jar:org.training.initialdata.setup.InitialDataSystemSetup&/traininginitialdata/import/cockpits/cmscockpit
 #################################################################
 
 

@@ -112,6 +112,60 @@
 				</attributes>
 			</itemtype>
 		</typegroup>
+		
+		
+		<typegroup name="Fashion">
+			<itemtype code="FashionProduct" extends="Product"
+			          autocreate="true" generate="true"
+			          jaloclass="com.cg.fashion.core.jalo.FashionProduct">
+				<description>Base apparel product extension that contains additional attributes.</description>
+				<attributes>
+					<attribute qualifier="genders" type="GenderList">
+						<description>List of genders that the ApparelProduct is designed for</description>
+						<modifiers/>
+						<persistence type="property"/>
+					</attribute>
+				</attributes>
+			</itemtype>
+
+			<itemtype code="FashionStyleVariantProduct" extends="VariantProduct"
+			          autocreate="true" generate="true"
+			          jaloclass="com.cg.fashion.core.jalo.FashionStyleVariantProduct">
+				<description>Apparel style variant type that contains additional attribute describing variant style.
+				</description>
+				<attributes>
+					<attribute qualifier="style" type="localized:java.lang.String"
+					           metatype="VariantAttributeDescriptor">
+						<description>Color/Pattern of the product.</description>
+						<modifiers/>
+						<persistence type="property"/>
+					</attribute>
+
+					<attribute qualifier="swatchColors" type="SwatchColorSet">
+						<description>A normalized color mapping to a standardized front-end navigable name.
+						</description>
+						<modifiers/>
+						<persistence type="property"/>
+					</attribute>
+				</attributes>
+
+			</itemtype>
+
+			<itemtype code="FashionSizeVariantProduct" extends="FashionStyleVariantProduct"
+			          autocreate="true" generate="true"
+			          jaloclass="com.cg.fashion.core.jalo.FashionSizeVariantProduct">
+				<description>Apparel size variant type that contains additional attribute describing variant size.
+				</description>
+				<attributes>
+					<attribute qualifier="size" type="localized:java.lang.String"
+					           metatype="VariantAttributeDescriptor">
+						<description>Size of the product.</description>
+						<modifiers/>
+						<persistence type="property"/>
+					</attribute>
+				</attributes>
+			</itemtype>
+		</typegroup>
 
 	</itemtypes>
 </items>

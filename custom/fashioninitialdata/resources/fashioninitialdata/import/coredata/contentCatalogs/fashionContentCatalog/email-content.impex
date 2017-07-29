@@ -9,16 +9,19 @@
 # license agreement you entered into with SAP.
 # -----------------------------------------------------------------------
 #
-# Import the CMS content for the Electronics site emails
+# Import the CMS content for the site emails
 #
 $contentCatalog=fashionContentCatalog
 $contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
 $wideContent=CMSImageComponent,BannerComponent
 
-# Import modulegen config properties into impex macros
+# Import config properties into impex macros
 UPDATE GenericItem[processor=de.hybris.platform.commerceservices.impex.impl.ConfigPropertyImportProcessor];pk[unique=true]
+$emailResource=$config-emailResourceValue
 $jarResourceCms=$config-jarResourceCmsValue
-$emailPackageName=$config-emailContextPackageName
+
+# Language
+$lang=en
 
 # Email page Template
 INSERT_UPDATE EmailPageTemplate;$contentCV[unique=true];uid[unique=true];name;active;frontendTemplateName;subject(code);htmlTemplate(code);restrictedPageTypes(code)

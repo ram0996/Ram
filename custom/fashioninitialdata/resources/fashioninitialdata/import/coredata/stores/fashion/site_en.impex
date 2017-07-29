@@ -9,7 +9,7 @@
 # license agreement you entered into with SAP.
 # -----------------------------------------------------------------------
 #
-# Import the CMS Site configuration for the Apparel DE Store
+# Import the CMS Site configuration for the store
 #
 
 # Language
@@ -17,4 +17,4 @@ $lang=en
 
 # Create CMS Site
 UPDATE CMSSite;uid[unique=true];name[lang=$lang];locale[lang=$lang]
- ;fashion;"Fashion Site";en_GB
+;fashion;"Fashion Site";en_GB

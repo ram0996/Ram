@@ -9,7 +9,7 @@
 # license agreement you entered into with SAP.
 # -----------------------------------------------------------------------
 #
-# Import the Apparel UK Store
+# Import the BaseStore
 #
 
 # Language
@@ -17,4 +17,4 @@ $lang=en
 
 # Create Base Store
 UPDATE BaseStore;uid[unique=true];name[lang=$lang]
- ;fashion;"Fashion Store"
+;fashion;"Fashion Store"

@@ -16,7 +16,7 @@ $contentCatalog=__CONTENT_CATALOG_NAME__
 
 $contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
 $picture=media(code, $contentCV);
-$siteResource=jar:com.cg.fashion.initialdata.setup.InitialDataSystemSetup&/fashioninitialdata/import/contentCatalogs/$contentCatalog
+$siteResource=jar:org.training.initialdata.setup.InitialDataSystemSetup&/traininginitialdata/import/contentCatalogs/$contentCatalog
 
 # Language
 $lang=en

@@ -515,4 +515,11 @@
 	<bean id="fashionCollectionCategoryNameValueProvider" parent="abstractCategoryNameValueProvider">
 		<property name="categorySource" ref="fashionCollectionCategorySource"/>
 	</bean>
+	
+	<bean id="fashionPointOfServiceFacetDisplayNameProvider"
+	      class="com.cg.fashion.core.search.solrfacetsearch.provider.impl.PointOfServiceFacetDisplayNameProvider"
+	      >
+		<property name="pointOfServiceService" ref="pointOfServiceService"/>
+	</bean>
+	
 </beans>

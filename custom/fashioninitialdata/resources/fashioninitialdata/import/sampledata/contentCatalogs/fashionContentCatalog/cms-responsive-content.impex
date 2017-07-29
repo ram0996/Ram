@@ -9,13 +9,12 @@
 # license agreement you entered into with SAP.
 # -----------------------------------------------------------------------
 # ImpEx for Importing CMS Content
-# Macros / Replacement Parameter definitions
+
 # Macros / Replacement Parameter definitions
 $contentCatalog=fashionContentCatalog
 $contentCatalogName=Fashion Content Catalog
 $productCatalog=fashionProductCatalog
 $productCatalogName=Fashion Product Catalog
-
 $contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
 $productCV=catalogVersion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
 $picture=media(code, $contentCV);
@@ -23,6 +22,8 @@ $image=image(code, $contentCV);
 $media=media(code, $contentCV);
 $page=page(uid, $contentCV);
 $contentPage=contentPage(uid, $contentCV);
+$product=product(code, $productCV)
+$category=category(code, $productCV)
 $siteResource=jar:com.cg.fashion.initialdata.setup.InitialDataSystemSetup&/fashioninitialdata/import/sampledata/contentCatalogs/$contentCatalog
 $productResource=jar:com.cg.fashion.initialdata.setup.InitialDataSystemSetup&/fashioninitialdata/import/sampledata/productCatalogs/$productCatalog
 $jarResourceCms=jar:com.cg.fashion.initialdata.setup.InitialDataSystemSetup&/fashioninitialdata/import/sampledata/cockpits/cmscockpit
@@ -30,7 +31,7 @@ $jarResourceCms=jar:com.cg.fashion.initialdata.setup.InitialDataSystemSetup&/fas
 
 # CMS Site Settings
 UPDATE CMSSite;uid[unique=true];defaultPreviewCategory(code, $productCV);defaultPreviewProduct(code, $productCV)
-;fashion;;
+;fashion;100;
 
 # Site Logo
 INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];realfilename;@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator];mime[default='image/jpeg'];altText;folder(qualifier)[default='images']
@@ -55,6 +56,15 @@ INSERT_UPDATE CMSLinkComponent;$contentCV[unique=true];uid[unique=true];name;url
 ;;LinkedInLink;Linked In Link;"http://www.linkedin.com/company/97435";LinkedInLink;LinkedInLink;newWindow;;;
 ;;FAQLink;FAQ Link;/faq;FAQLink;FAQLin;;;;
 ;;TermsAndConditionsLink;Terms and Conditions Link;/termsAndConditions;TermsAndConditionsLink;TermsAndConditionsLink;;;;
+;;MenCategoryLink;Men Category;/Open-Catalogue/men/c/100;MenCategoryLink;MenCategoryLink;;100;;
+;;ShirtsCategoryLink;Men SHirts Category;/Open-Catalogue/men/shirts/c/110;ShirtsCategoryLink;ShirtsCategoryLink;;110;;
+;;MenJeansCategoryLink;Men Jeans Category;/Open-Catalogue/men/menjeans/c/120;MenJeansCategoryLink;MenJeansCategoryLink;;120;;
+;;MenJacketCategoryLink;Men Jackets Category;/Open-Catalogue/men/jackets/c/130;MenJacketCategoryLink;MenJacketCategoryLink;;130;;
+;;WomenCategoryLink;Women Category;/Open-Catalogue/women/c/200;WomenCategoryLink;WomenCategoryLink;;200;;
+;;SareeCategoryLink;Sarees Category;/Open-Catalogue/women/sarees/c/210;SareeCategoryLink;SareeCategoryLink;;210;;
+;;WomenJeansCategoryLink;Women Jeans Category;/Open-Catalogue/women/womenjeans/c/220;WomenJeansCategoryLink;WomenJeansCategoryLink;;220;;
+;;KurthasCategoryLink;Kurthas Category;/Open-Catalogue/women/kurthas/c/230;KurthasCategoryLink;KurthasCategoryLink;;230;;
+
 
 # Lightbox Banner for Mini Cart
 INSERT_UPDATE SimpleBannerComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;urlLink
@@ -71,36 +81,13 @@ INSERT_UPDATE CMSTabParagraphComponent;$contentCV[unique=true];uid[unique=true];
 INSERT_UPDATE CMSTabParagraphContainer;$contentCV[unique=true];uid[unique=true];name;visible;simpleCMSComponents(uid, $contentCV);&componentRef
 ;;TabPanelContainer;Tab container;true;deliveryTab;TabPanelContainer
 
-
 # CMS VariantSelector Components
 INSERT_UPDATE ProductVariantSelectorComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef
 ;;VariantSelector;Product Variant Selector;VariantSelector
 
 # CMS ProductAddToCart Components
-INSERT_UPDATE ProductAddToCartComponent;$contentCV[unique=true];uid[unique=true];name;actions(&actionRef);&componentRef
+INSERT_UPDATE ProductAddToCartComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef
 ;;AddToCart;Product Add To Cart;AddToCartAction,PickUpInStoreAction,ShareOnSocialNetworkAction;AddToCart
-
-# CMS AddToCart Action
-INSERT_UPDATE AddToCartAction;$contentCV[unique=true];uid[unique=true];url;name;restrictions(uid,$contentCV);&actionRef
-;;AddToCartAction;/cart/add;Product Add To Cart Action;ActionRestriction;AddToCartAction
-
-INSERT_UPDATE ListAddToCartAction;$contentCV[unique=true];uid[unique=true];url;name;restrictions(uid,$contentCV);&actionRef
-;;ListAddToCartAction;/cart/add;Product Add To Cart Action;ActionRestriction;ListAddToCartAction
-
-INSERT_UPDATE ListPickUpInStoreAction;$contentCV[unique=true];uid[unique=true];url;name;restrictions(uid,$contentCV);&actionRef
-;;ListPickUpInStoreAction;/store-pickup/{productCode}/pointOfServices;Pickup in Store Action;ActionRestriction;ListPickUpInStoreAction
-
-# CMS PickUpInStoreAction Action
-INSERT_UPDATE PickUpInStoreAction;$contentCV[unique=true];uid[unique=true];url;name;restrictions(uid,$contentCV);&actionRef
-;;PickUpInStoreAction;/store-pickup/{productCode}/pointOfServices;Pickup in Store Action;ActionRestriction;PickUpInStoreAction
-
-# CMS ShareOnSocialNetwork Action
-INSERT_UPDATE ShareOnSocialNetworkAction;$contentCV[unique=true];uid[unique=true];url;name;restrictions(uid,$contentCV);&actionRef
-;;ShareOnSocialNetworkAction;/;Share On Social Network Action;ActionRestriction;ShareOnSocialNetworkAction
-
-# CMS Action Restrictions
-INSERT_UPDATE CMSActionRestriction;$contentCV[unique=true];uid[unique=true];name;
-;;ActionRestriction;A CMSAction restriction;
 
 # CMS ProductReferences Components
 INSERT_UPDATE ProductReferencesComponent;$contentCV[unique=true];uid[unique=true];name;productReferenceTypes(code);maximumNumberProducts;&componentRef
@@ -109,9 +96,9 @@ INSERT_UPDATE ProductReferencesComponent;$contentCV[unique=true];uid[unique=true
 ;;Others;Others;OTHERS;5;Others
 ;;Similar;Similar;SIMILAR;5;Similar
 
-# CMS PurchasedCategorySuggestion Components
+# CMS PurchasedCategorySuggestionComponent Components
 INSERT_UPDATE PurchasedCategorySuggestionComponent;$contentCV[unique=true];uid[unique=true];name;productReferenceTypes(code);maximumNumberProducts;filterPurchased;category(code, $productCV);&componentRef
-;;PurchasedCategorySuggestions;Purchased Category Suggestions;OTHERS;10;true;;PurchasedCategorySuggestions
+;;PurchasedCategorySuggestions;Purchased Category Suggestions;OTHERS;10;true;101;PurchasedCategorySuggestions
 
 # CMS CartSuggestion Components
 INSERT_UPDATE CartSuggestionComponent;$contentCV[unique=true];uid[unique=true];name;productReferenceTypes(code);maximumNumberProducts;filterPurchased;&componentRef
@@ -125,19 +112,24 @@ INSERT_UPDATE SearchBoxComponent;$contentCV[unique=true];uid[unique=true];name;&
 INSERT_UPDATE LanguageCurrencyComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef
 ;;LangCurrencyComponent;Language and Currency Component;LangCurrencyComponent
 
+# CMS Product Refinement Component
 INSERT_UPDATE ProductRefinementComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef
 ;;RefinementFacetComponent;Product Refinement Facet Component;RefinementFacetComponent
 
+# CMS Product List Component
 INSERT_UPDATE CMSProductListComponent;$contentCV[unique=true];uid[unique=true];name;actions(uid,$contentCV);&componentRef
 ;;ProductListComponent;Product List Component;ListPickUpInStoreAction,ListAddToCartAction;ProductListComponent
 
+# CMS Product Grid Component
 INSERT_UPDATE ProductGridComponent;$contentCV[unique=true];uid[unique=true];name;actions(uid,$contentCV);&componentRef
 ;;ProductGridComponent;Product Grid Component;ListPickUpInStoreAction,ListAddToCartAction;ProductGridComponent
 
+# CMS Search Results List Component
 INSERT_UPDATE SearchResultsListComponent;$contentCV[unique=true];uid[unique=true];name;actions(uid,$contentCV);&componentRef
 ;;SearchResultsList;Search Result List Component;ListPickUpInStoreAction,ListAddToCartAction;SearchResultsList
 
-INSERT_UPDATE SearchResultsGridComponent;$contentCV[unique=true];uid[unique=true];name;actions(uid,$contentCV);&componentRef
+# CMS Search Results List Component
+INSERT_UPDATE SearchResultsListComponent;$contentCV[unique=true];uid[unique=true];name;actions(uid,$contentCV);&componentRef
 ;;SearchResultsGrid;Search Result Grid Component;ListPickUpInStoreAction,ListAddToCartAction;SearchResultsGrid
 
 # Content Slots
@@ -157,10 +149,8 @@ INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];cmsComponents
 
 INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];mime;realfilename;@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite=true];folder(qualifier)[default='images']
 
-
 # Category Pages
 INSERT_UPDATE CategoryPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);defaultPage;approvalStatus(code)[default='approved'];previewImage(code, $contentCV)
-
 
 # Category Page Restrictions
 INSERT_UPDATE CMSCategoryRestriction;$contentCV[unique=true];uid[unique=true];name;categories(code, $productCV);pages(uid, $contentCV)
@@ -172,10 +162,22 @@ INSERT_UPDATE CMSNavigationNode;uid[unique=true];$contentCV[unique=true];name;ch
 # CMS Navigation Nodes
 INSERT_UPDATE CMSNavigationNode;uid[unique=true];$contentCV[unique=true];name;parent(uid, $contentCV);links(&linkRef);&nodeRef
 ;SiteRootNode;;SiteRootNode;root;;SiteRootNode
-;FashionNavNode;;Electronics Site;SiteRootNode;HomepageNavLink;FashionNavNode
+;FashionNavNode;;Fashion Site;SiteRootNode;HomepageNavLink;FashionNavNode
+;MenNavNode;;Men Link;FashionNavNode;MenCategoryLink;MenNavNode
+;MenLinkNavNode;;MenLink;MenNavNode;ShirtsCategoryLink,MenJeansCategoryLink,MenJacketCategoryLink;MenLinkNavNode
+;WomenNavNode;;Women Link;FashionNavNode;WomenCategoryLink;WomenNavNode
+;WomenLinkNavNode;;Women Link;WomenNavNode;SareeCategoryLink,WomenJeansCategoryLink,KurthasCategoryLink;WomenLinkNavNode
 ;AcceleratorNavNode;;Accelerator Pages;FashionNavNode;AboutAcceleratorLink,FAQLink;AcceleratorNavNode
 ;HybrisNavNode;;Hybris Pages;FashionNavNode;AboutHybrisLink,ContactUsLink;HybrisNavNode
 ;FollowUsNavNode;;Follow Us Pages;FashionNavNode;AgileCommerceBlogLink,LinkedInLink,FacebookLink,TwitterLink;FollowUsNavNode
+
+# Navigation Bar Component
+INSERT_UPDATE NavigationBarComponent;$contentCV[unique=true];uid[unique=true];navigationNode(&nodeRef);dropDownLayout(code)
+
+INSERT_UPDATE NavigationBarComponent;$contentCV[unique=true];uid[unique=true];name;wrapAfter;navigationNode(&nodeRef);link(uid, $contentCV);styleClass;dropDownLayout(code);&componentRef
+
+# Update CMS Footer Component with Nav Nodes
+INSERT_UPDATE FooterComponent;$contentCV[unique=true];uid[unique=true];navigationNodes(&nodeRef)
 
 
 # Preview Image for use in the CMS Cockpit for special ContentPages
@@ -205,7 +207,7 @@ INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];mime;realfilename;
 ;;orderExpiredPagePreview;text/png;OrderExpiredPage.png;$jarResourceCms/preview-images/fashion/OrderExpiredPage.png;;;
 
 # Site-wide Homepage
-UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV);linkComponents(&linkRef)
+UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV);linkComponents(uid, $contentCV)
 ;;homepage;homepagePreview;HomepageNavLink
 
 # Functional Content Pages
@@ -228,11 +230,10 @@ UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $
 ;;orderExpired;orderExpiredPagePreview
 
 # Simple Content Pages 
-UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV);linkComponents(&linkRef)
+UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV);linkComponents(uid, $contentCV)
 ;;faq;frequentlyAskedQuestionsPage;FAQLink
 
-# Order Expired Page
-UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV)
+UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV);linkComponents(uid, $contentCV)
 ;;orderExpired;orderExpiredPagePreview
 
 UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV);linkComponents(&linkRef)
@@ -252,27 +253,63 @@ UPDATE CategoryPage;$contentCV[unique=true];uid[unique=true];previewImage(code, 
 ;;productGrid;productGridPagePreview
 ;;category;defaultCategoryPagePreview
 
+####  CMS ACTIONS ######
+# CMS Action Restrictions
+INSERT_UPDATE CMSActionRestriction;$contentCV[unique=true];uid[unique=true];name;
+;;ActionRestriction;A CMSAction restriction;
 
-###### Fashion Homepage ######
+# CMS AddToCart Action
+INSERT_UPDATE AddToCartAction;$contentCV[unique=true];uid[unique=true];url;name;restrictions(uid,$contentCV);&actionRef
+;;AddToCartAction;/cart/add;Product Add To Cart Action;ActionRestriction;AddToCartAction
+
+# CMS ListAddToCartAction
+INSERT_UPDATE ListAddToCartAction;$contentCV[unique=true];uid[unique=true];url;name;restrictions(uid,$contentCV);&actionRef
+;;ListAddToCartAction;/cart/add;Product Add To Cart Action;ActionRestriction;ListAddToCartAction
+
+INSERT_UPDATE ListPickUpInStoreAction;$contentCV[unique=true];uid[unique=true];url;name;restrictions(uid,$contentCV);&actionRef
+;;ListPickUpInStoreAction;/store-pickup/{productCode}/pointOfServices;Pickup in Store Action;ActionRestriction;ListPickUpInStoreAction
+
+# CMS ListOrderForm Action
+INSERT_UPDATE ListOrderFormAction;$contentCV[unique=true];uid[unique=true];url;name;restrictions(uid,$contentCV);&actionRef
+
+# CMS PickUpInStoreAction Action
+INSERT_UPDATE PickUpInStoreAction;$contentCV[unique=true];uid[unique=true];url;name;restrictions(uid,$contentCV);&actionRef
+;;PickUpInStoreAction;/store-pickup/{productCode}/pointOfServices;Pickup in Store Action;ActionRestriction;PickUpInStoreAction
+
+# CMS ShareOnSocialNetwork Action
+INSERT_UPDATE ShareOnSocialNetworkAction;$contentCV[unique=true];uid[unique=true];url;name;restrictions(uid,$contentCV);&actionRef
+;;ShareOnSocialNetworkAction;/;Share On Social Network Action;ActionRestriction;ShareOnSocialNetworkAction
+
+# CMS View Order Action
+INSERT_UPDATE ViewOrderAction;$contentCV[unique=true];uid[unique=true];url;name;restrictions(uid,$contentCV);&actionRef
+
+# CMS View Store Action
+INSERT_UPDATE ViewStoreAction;$contentCV[unique=true];uid[unique=true];url;name;restrictions(uid,$contentCV);&actionRef
+
+##### Jsp Include Component #####
+INSERT_UPDATE JspIncludeComponent;$contentCV[unique=true];uid[unique=true];name;page;&componentRef
+
+INSERT_UPDATE BreadcrumbComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef
+
+###### Homepage ######
 
 INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator];mime[default='image/jpeg'];altText;&imageRef;folder(qualifier)[default='images']
 
 INSERT_UPDATE SimpleBannerComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;urlLink
+;;NextDayDeliveryBanner;Next Day Delivery Banner;NextDayDeliveryBanner
 
 INSERT_UPDATE BannerComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;urlLink
 
 INSERT_UPDATE RotatingImagesComponent;$contentCV[unique=true];uid[unique=true];name;banners(&componentRef);&componentRef
-;;FashionHomepageCarouselComponent;Electronics Homepage Carousel;;FashionHomepageCarouselComponent
 
 INSERT_UPDATE ProductCarouselComponent;$contentCV[unique=true];uid[unique=true];name;products(code,$productCV);scroll(code);popup;&componentRef
-;;FashionHomepageProductCarouselComponent;Fashion Homepage Product Carousel;;allVisible;false;FashionHomepageProductCarouselComponent
 
 INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
-;;Section1Slot-Homepage;Section1 Slot for Homepage;true;BrandsGaloreBanner
+;;Section1Slot-Homepage;Section1 Slot for Homepage;true;
 ;;Section2ASlot-Homepage;Section2A Slot for Homepage;true;
 ;;Section2BSlot-Homepage;Section2B Slot for Homepage;true;
-;;Section2CSlot-Homepage;Section2C Slot for Homepage;true;FashionHomepageCarouselComponent
-;;Section3Slot-Homepage;Section3 Slot for Homepage;true;FashionHomepageProductCarouselComponent,PurchasedCategorySuggestions
+;;Section2CSlot-Homepage;Section2C Slot for Homepage;true;
+;;Section3Slot-Homepage;Section3 Slot for Homepage;true;PurchasedCategorySuggestions
 ;;Section4Slot-Homepage;Section4 Slot for Homepage;true;
 ;;Section5Slot-Homepage;Section5 Slot for Homepage;true;NextDayDeliveryBanner
 
@@ -285,7 +322,7 @@ INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];positi
 ;;Section4-Homepage;Section4;;Section4Slot-Homepage
 ;;Section5-Homepage;Section5;;Section5Slot-Homepage
 
-###### Fashion Accessories and Supplies Category Landing Page ######
+###### Category Landing Page ######
 
 INSERT_UPDATE CategoryPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);defaultPage;approvalStatus(code)[default='approved'];previewImage(code, $contentCV)
 
@@ -297,13 +334,10 @@ INSERT_UPDATE SimpleBannerComponent;$contentCV[unique=true];uid[unique=true];nam
 ;;BuyOnlineBanner;Buy Online Banner;BuyOnlineBanner
 
 INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
-#;;Section2Slot-CameraAccessories;Section2 Slot for Camera Accessories Page;true;BuyOnlineBanner
-#;;Section3Slot-CameraAccessories;Section3 Slot for Camera Accessories Page;true;
-INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='CamerasAccessoriesAndSuppliesCategoryPage'];contentSlot(uid,$contentCV)[unique=true]
-#;;Section2-CameraAccessories;Section2;;Section2Slot-CameraAccessories
-#;;Section3-CameraAccessories;Section3;;Section3Slot-CameraAccessories
 
-###### Fashion Search Results Page ######
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='CamerasAccessoriesAndSuppliesCategoryPage'];contentSlot(uid,$contentCV)[unique=true]
+
+###### Search Results Page ######
 
 INSERT_UPDATE SimpleBannerComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;urlLink
 
@@ -320,7 +354,7 @@ INSERT_UPDATE CMSParagraphComponent;$contentCV[unique=true];uid[unique=true];nam
 
 INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
 ;;TopContent-searchEmpty;Top Slot for searchEmpty;true;
-;;SideContent-searchEmpty;Side Slot for searchEmpty;true;
+;;SideContent-searchEmpty;Side Slot for searchEmpty;true;SLRLensesBanner
 ;;MiddleContent-searchEmpty;Middle Slot for searchEmpty;true;NoSearchResultsParagraphComponent
 
 INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='searchEmpty'];contentSlot(uid,$contentCV)[unique=true]
@@ -328,7 +362,7 @@ INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];positi
 ;;Side-searchEmpty;SideContent;;SideContent-searchEmpty
 ;;Middle-searchEmpty;MiddleContent;;MiddleContent-searchEmpty
 
-###### Fashion Cart Page ######
+###### Cart Page ######
 
 INSERT_UPDATE SimpleBannerComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;urlLink
 ;;NextDayDeliveryBanner120;Next Day Delivery Banner (120);NextDayDeliveryBanner120;#
@@ -351,7 +385,7 @@ INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];positi
 ;;CenterRightContentSlotForCartPage;CenterRightContentSlot;;CenterRightContentSlot-cartPage
 ;;BottomContentSlotForCartPage;BottomContentSlot;;BottomContentSlot-cartPage
 
-###### Fashion Checkout Login Page ######
+###### Checkout Login Page ######
 
 INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
 ;;BottomContent-checkoutLogin;Bottom Slot for Checkout Login Page;true;HelpParagraphComponent
@@ -359,7 +393,7 @@ INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;c
 INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='checkout-login'];contentSlot(uid,$contentCV)[unique=true]
 ;;Bottom-checkoutLogin;BottomContent;;BottomContent-checkoutLogin
 
-###### Electronics Checkout Summary / Proceed to Checkout Page ######
+###### Checkout Summary / Proceed to Checkout Page ######
 
 INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
 ;;SideContent-multiStepCheckoutSummaryPage;Side Slot for multiStepCheckoutSummaryPage;true;HelpParagraphComponent
@@ -367,8 +401,7 @@ INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;c
 INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true];contentSlot(uid,$contentCV)[unique=true]
 ;;Side-multiStepCheckoutSummaryPage;SideContent;multiStepCheckoutSummaryPage;SideContent-multiStepCheckoutSummaryPage
 
-
-###### Fashion Store Finder Page ######
+###### Store Finder Page ######
 
 INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
 ;;SideContent-StoreFinderPage;Side Slot for Store Finder Page;true;
@@ -378,7 +411,7 @@ INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];positi
 ;;Side-StoreFinderPage;SideContent;;SideContent-StoreFinderPage
 ;;Middle-StoreFinderPage;MiddleContent;;MiddleContent-StoreFinderPage
 
-###### Fashion FAQ Page ###### 
+###### FAQ Page ######
  
 # CMSParagraphComponent 
 INSERT_UPDATE CMSParagraphComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;;;;
@@ -389,14 +422,13 @@ INSERT_UPDATE CMSParagraphComponent;$contentCV[unique=true];uid[unique=true];nam
 INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
 ;;Section2ASlot-FAQ;Section2A Slot for FAQ Page;true;FAQMenuParagraph;;;
 ;;Section2BSlot-FAQ;Section2B Slot for FAQ Page;true;FAQTextParagraph;;;
- 
+
 # ContentSlotForPage 
 INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='faq'];contentSlot(uid,$contentCV)[unique=true];;;
 ;;Section2A-FAQ;Section2A;;Section2ASlot-FAQ;;;
 ;;Section2B-FAQ;Section2B;;Section2BSlot-FAQ;;;
 
-###### Fashion Order Expired Page ######
-
+### Order Expired Page ##############
 # CMSParagraphComponent 
 INSERT_UPDATE CMSParagraphComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;;;;
 ;;orderExpiredMenuParagraph;Order Expired Paragraph;OrderExpiredMenuParagraph;;;;
@@ -412,7 +444,8 @@ INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];positi
 ;;Section2A-OrderExpired;Section2A;;Section2ASlot-OrderExpired;;;
 ;;Section2B-OrderExpired;Section2B;;Section2BSlot-OrderExpired;;;
 
-###### Fashion Terms and Conditions Page
+
+###### Terms and Conditions Page
 
 # CMSParagraphComponent
 INSERT_UPDATE CMSParagraphComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;;;;
@@ -428,7 +461,6 @@ INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;c
 INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='termsAndConditions'];contentSlot(uid,$contentCV)[unique=true];;;
 ;;Section2A-TermsAndConditions;Section2A;;Section2ASlot-TermsAndConditions;;;
 ;;Section2B-TermsAndConditions;Section2B;;Section2BSlot-TermsAndConditions;;;
-
 
 INSERT_UPDATE JspIncludeComponent;$contentCV[unique=true];uid[unique=true];name;page;actions(uid,$contentCV);&componentRef
 ;;AccountPaymentDetailsComponent;Account Payment Details Component;accountPaymentInfoPage.jsp;;AccountPaymentDetailsComponent
@@ -454,7 +486,6 @@ INSERT_UPDATE JspIncludeComponent;$contentCV[unique=true];uid[unique=true];name;
 ;;NewCustomerCheckoutLoginComponent;New Customer Checkout Login Component;checkoutNewCustomerLogin.jsp;;NewCustomerCheckoutLoginComponent
 ;;ReturningCustomerCheckoutLoginComponent;Returning Customer Checkout Login Component;checkouReturningCustomerLogin.jsp;;ReturningCustomerCheckoutLoginComponent
 ;;GuestCheckoutLoginComponent;Guest Checkout Login Component;checkoutGuestLogin.jsp;;GuestCheckoutLoginComponent
-
 
 INSERT_UPDATE BreadcrumbComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef
 ;;breadcrumbComponent;Breadcrumb CMS Component;breadcrumbComponent
@@ -600,6 +631,7 @@ INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];positi
 ;;RightContentSlot-checkout-login;RightContentSlot;;RightContentSlot-checkout-login;;;
 
 ######################### above is the desktop data, below is the responsive data ###############################################
+
 ##  Remove the language currency component from the search and place a tag in the footer
 # CMS SearchBox Components
 INSERT_UPDATE SearchBoxComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef
@@ -610,8 +642,6 @@ INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];cmsComponents
 
 
 #################    HOME PAGE START     #################
-
-###  Home page splash Slot 1  #######
 INSERT_UPDATE SimpleResponsiveBannerComponent;$contentCV[unique=true];uid[unique=true];name;urlLink;&componentRef
 
 INSERT_UPDATE SimpleResponsiveBannerComponent;$contentCV[unique=true];uid[unique=true];name;urlLink;&componentRef
@@ -625,7 +655,7 @@ INSERT_UPDATE SimpleResponsiveBannerComponent;$contentCV[unique=true];uid[unique
 
 INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];active;cmsComponents(&componentRef)
 
-#### Home section 2B #######
+###  Home page slot 2B  ####
 INSERT_UPDATE SimpleResponsiveBannerComponent;$contentCV[unique=true];uid[unique=true];name;urlLink;&componentRef
 
 INSERT_UPDATE SimpleResponsiveBannerComponent;$contentCV[unique=true];uid[unique=true];name;urlLink;&componentRef
@@ -634,7 +664,6 @@ INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];active;cmsCom
 
 ## Home section 2C
 INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];cmsComponents(&componentRef)
-;;Section2CSlot-Homepage;
 
 ## Home section 3
 INSERT_UPDATE ProductCarouselComponent;$contentCV[unique=true];uid[unique=true];&componentRef
@@ -642,7 +671,6 @@ INSERT_UPDATE ProductCarouselComponent;$contentCV[unique=true];uid[unique=true];
 INSERT_UPDATE ProductCarouselComponent;$contentCV[unique=true];uid[unique=true];name;products(code,$productCV);scroll(code);popup;&componentRef
 
 INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];cmsComponents(&componentRef)
-
 
 #### Section 4
 INSERT_UPDATE SimpleResponsiveBannerComponent;$contentCV[unique=true];uid[unique=true];name;urlLink;&componentRef
@@ -653,7 +681,6 @@ INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];active;cmsCom
 INSERT_UPDATE SimpleResponsiveBannerComponent;$contentCV[unique=true];uid[unique=true];name;urlLink;&componentRef
 
 INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];active;cmsComponents(&componentRef)
-
 
 #################    HOME PAGE END       #################
 
@@ -687,40 +714,32 @@ INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;c
 
 # Site Logo
 INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];realfilename;@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator];mime[default='image/svg+xml'];altText;folder(qualifier)[default='images']
-;;/images/theme/logo_hybris_responsive.svg;logo_hybris_responsive.svg;$siteResource/images/theme/logo_hybris_responsive.svg;image/svg+xml;hybris Accelerator;
+;;/images/theme/logo-hybris.png;logo-hybris.png;$siteResource/images/theme/logo-hybris.png;image/png;hybris Accelerator;
 
 ###  Responsive Error page #######
 
 INSERT_UPDATE Media;mediaFormat(qualifier);code[unique=true];@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite=true];realfilename;altText;mime[default='image/svg+xml'];$contentCV[unique=true];folder(qualifier)[default=images]
-;mobile;Fash_480x170_ErrorPage_480W.svg;$siteResource/images/banners/site/Elec_1400x401_ErrorPage_EN_1400W.svg;Elec_1400x401_ErrorPage_EN_1400W.svg;"Page not found";
-;tablet;Fash_770x221_ErrorPage_770W.svg;$siteResource/images/banners/site/Elec_1400x401_ErrorPage_EN_1400W.svg;Elec_1400x401_ErrorPage_EN_1400W.svg;"Page not found";
-;desktop;Fash_960x275_ErrorPage_960W.svg;$siteResource/images/banners/site/Elec_1400x401_ErrorPage_EN_1400W.svg;Elec_1400x401_ErrorPage_EN_1400W.svg;"Page not found";
-;widescreen;Fash_1400x401_ErrorPage_1400W.svg;$siteResource/images/banners/site/Elec_1400x401_ErrorPage_EN_1400W.svg;Elec_1400x401_ErrorPage_EN_1400W.svg;"Page not found";
 
 INSERT_UPDATE MediaContainer;qualifier[unique=true];$medias;$contentCV[unique=true]
-;fashion-errorpage-pagenotfound;Fash_480x170_ErrorPage_480W.svg,Fash_770x221_ErrorPage_770W.svg,Fash_960x275_ErrorPage_960W.svg,Fash_1400x401_ErrorPage_1400W.svg
 
 INSERT_UPDATE SimpleResponsiveBannerComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;$mediaContainer
-;;FashionErrorpageBannerComponent;Fashion Error Page Banner Component;FashionErrorpageBannerComponent;fashion-errorpage-pagenotfound
 
 # Create ContentSlots
 INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
-;;MiddleContent-Errorpage;Middle Content Slot for Error Page;true;FashionErrorpageBannerComponent;;;
 
 # Create Content Slots for Page
 INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='notFound'];contentSlot(uid,$contentCV)[unique=true]
-;;MiddleContent-Errorpage;MiddleContent;;MiddleContent-Errorpage
+
 
 # Remove view store action from store finder component
 INSERT_UPDATE JspIncludeComponent;$contentCV[unique=true];uid[unique=true];actions(uid,$contentCV);
 ;;StoreFinderComponent;;
 
-###### Update the  Accessories Category Page #####
+###### Update the Camera and Accessories Category Page #####
 INSERT_UPDATE CategoryPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);defaultPage;approvalStatus(code)[default='approved'];previewImage(code, $contentCV)
 
-##### End Update the Camera and Accessories Category Page #####
 
-###### Fashion SLR Category Landing Page ######
+###### Electronics SLR Category Landing Page ######
 
 INSERT_UPDATE CategoryPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);defaultPage;approvalStatus(code)[default='approved'];previewImage(code, $contentCV)
 
@@ -728,7 +747,6 @@ INSERT_UPDATE CMSCategoryRestriction;$contentCV[unique=true];uid[unique=true];na
 
 INSERT_UPDATE SimpleBannerComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef
 ;;BuyOnlineBanner;Buy Online Banner;BuyOnlineBanner
-
 
 ##### Section 1 ######
 INSERT_UPDATE SimpleResponsiveBannerComponent;$contentCV[unique=true];uid[unique=true];name;urlLink;&componentRef
@@ -906,7 +924,7 @@ INSERT_UPDATE JspIncludeComponent;$contentCV[unique=true];uid[unique=true];name;
 ;;ImportCSVSavedCartComponent;Import CSV as Saved Cart Component;csv/importCSVSavedCartPage.jsp;;ImportCSVSavedCartComponent
 
 INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];mime;realfilename;@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite=true];folder(qualifier)[default='images']
-;;importCSVSavedCartPagePreview;text/png;OrderHistoryPage.png;$jarResourceCms/preview-images/fashion/OrderHistoryPage.png
+;;importCSVSavedCartPagePreview;text/png;OrderHistoryPage.png;$jarResourceCms/preview-images/electronics/OrderHistoryPage.png
 
 UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV)
 ;;importCSVSavedCartPage;importCSVSavedCartPagePreview
@@ -932,7 +950,7 @@ INSERT_UPDATE JspIncludeComponent;$contentCV[unique=true];uid[unique=true];name;
 
 # Preview image
 INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];mime;realfilename;@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite=true];folder(qualifier)[default='images']
-;;savedCartDetailsPagePreview;text/png;SavedCartDetailsPage.png;$jarResourceCms/preview-images/fashion/SavedCartDetailsPage.png
+;;savedCartDetailsPagePreview;text/png;SavedCartDetailsPage.png;$jarResourceCms/preview-images/electronics/SavedCartDetailsPage.png
 
 UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV)
 ;;savedCartDetailsPage;savedCartDetailsPagePreview
@@ -942,7 +960,7 @@ UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $
 ######## Account Saved Carts Page Start #######
 
 INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];mime;realfilename;@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite=true];folder(qualifier)[default='images']
-;;savedCartsPagePreview;text/png;SavedCartsPage.png;$jarResourceCms/preview-images/fashion/SavedCartsPage.png
+;;savedCartsPagePreview;text/png;SavedCartsPage.png;$jarResourceCms/preview-images/electronics/SavedCartsPage.png
 
 UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV)
 ;;saved-carts;savedCartsPagePreview
@@ -977,41 +995,51 @@ INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;c
 
 ###### Quick Order Page End ######
 
-
 INSERT_UPDATE CategoryNavigationComponent;$contentCV[unique=true];uid[unique=true];name;styleClass;&componentRef;navigationNode(&nodeRef);wrapAfter
+;;FashionCategoryNavComponent;Category Navigation Component;;FashionCategoryNavComponent;FashionCategoryNavNode;10
 
 INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];cmsComponents(uid, $contentCV)
+;;NavigationBarSlot;FashionCategoryNavComponent,breadcrumbComponent
 
 ## level 1. SiteRoot ##
 ## level 2. children of SiteRoot ## 
 # the following order of children is the display order on the site
 INSERT_UPDATE CMSNavigationNode;uid[unique=true];$contentCV[unique=true];name;parent(uid, $contentCV);&nodeRef;children(uid,$contentCV)
-
+;FashionCategoryNavNode;;Categories;FashionNavNode;FashionCategoryNavNode;MenNavNode,WomenNavNode
 ## level 3. children of Category Nav ##
 INSERT_UPDATE CMSNavigationNode;uid[unique=true];$contentCV[unique=true];name;&nodeRef;children(uid,$contentCV);links(&linkRef);
-
+;MenNavNode;;Men Navigation Node;MenNavNode;MenLinkNavNode
+;WomenNavNode;;Women Navigation Node;WomenNavNode;WomenLinkNavNode
 ## entries of the above navigation nodes ##
 INSERT_UPDATE CMSNavigationEntry;uid[unique=true];$contentCV[unique=true];name;navigationNode(&nodeRef);item(CMSLinkComponent.uid,CMSLinkComponent.$contentCV);
-
-# CMS Link Components
-INSERT_UPDATE CMSLinkComponent;$contentCV[unique=true];uid[unique=true];name;url;&linkRef;&componentRef;target(code)[default='sameWindow'];$category;$product;
-
+;MenLinkNavNodeEntry;;Men Navigation Node Entry;MenNavNode;MenCategoryLink
+;WomenLinkNavNodeEntry;;Women Navigation Node Entry;WomenNavNode;WomenCategoryLink
 
 ## level 4. children of NavNode (the following order of children is the display order on the site) ## 
 INSERT_UPDATE CMSNavigationNode;uid[unique=true];$contentCV[unique=true];name;&nodeRef;children(uid,$contentCV);links(&linkRef);
-## children of BrandsNavNode 
+;MenLinkNavNode;;Men Link Navigation Node;MenLinkNavNode;ShirtNavNode,JeansNavNode,JacketNavNode
+;WomenLinkNavNode;;Women Link Navigation Node;WomenLinkNavNode;SareesNavNode,WomenJeansNavNode,KurthasNavNode
 
 ## level 5. children of above (level 4) nodes ##
 INSERT_UPDATE CMSNavigationNode;uid[unique=true];$contentCV[unique=true];name;&nodeRef
-## Brands -- cameras
-
+;ShirtNavNode;;Shirt Link;ShirtNavNode
+;JeansNavNode;;Jeans Link;JeansNavNode
+;JacketNavNode;;Jacket Link;JacketNavNode
+;SareesNavNode;;Sarees Link;SareesNavNode
+;WomenJeansNavNode;;Women Jeans Link;WomenJeansNavNode
+;KurthasNavNode;;Kurthas Link;KurthasNavNode
 
 ## entries of the above navigation nodes ##
 INSERT_UPDATE CMSNavigationEntry;uid[unique=true];$contentCV[unique=true];name;navigationNode(&nodeRef);item(CMSLinkComponent.uid,CMSLinkComponent.$contentCV);
-## Brands -- cameras
+;ShirtNavNodeEntry;;Shirts Navigation Node Entry;ShirtNavNode;ShirtsCategoryLink;
+;JeansNavNodeEntry;;Jeans Navigation Node Entry;JeansNavNode;MenJeansCategoryLink;
+;JacketNavNodeEntry;;Jacket Navigation Node Entry;JacketNavNode;MenJacketCategoryLink;
+;SareesNavNodeEntry;;Sarees Navigation Node Entry;SareesNavNode;SareeCategoryLink;
+;WomenJeansNavNodeEntry;;Jeans Navigation Node Entry;WomenJeansNavNode;WomenJeansCategoryLink;
+;KurthasNavNodeENtry;;Kurthas Navigation Node Entry;KurthasNavNode;KurthasCategoryLink;
 
 
-
+###### Navigation Component Refactor End ######
 ###### Footer Component Refactor Start ######
 INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];cmsComponents(uid,$contentCV)
 ;;FooterSlot;FooterNavigationComponent
@@ -1021,7 +1049,7 @@ INSERT_UPDATE FooterNavigationComponent;$contentCV[unique=true];uid[unique=true]
 
 # the order of children is the same as the display order on the site
 INSERT_UPDATE CMSNavigationNode;uid[unique=true];$contentCV[unique=true];name;parent(uid, $contentCV);&nodeRef;children(uid,$contentCV)
-;FooterNavNode;;Footer Pages;ElectronicsNavNode;FooterNavNode;AcceleratorNavNode,HybrisNavNode,FollowUsNavNode
+;FooterNavNode;;Footer Pages;FashionNavNode;FooterNavNode;AcceleratorNavNode,HybrisNavNode,FollowUsNavNode
 
 # children of FooterNavNode #
 INSERT_UPDATE CMSNavigationNode;uid[unique=true];$contentCV[unique=true];name;&nodeRef;children(uid,$contentCV);links(&linkRef)
@@ -1051,7 +1079,4 @@ INSERT_UPDATE CMSNavigationEntry;uid[unique=true];$contentCV[unique=true];name;n
 ;FacebookNavNodeEntry;;Facebook Navigation Node Entry;FacebookNavNode;FacebookLink;
 ;TwitterNavNodeEntry;;Twitter Navigation Node Entry;TwitterNavNode;TwitterLink;
 ###### Footer Component Refactor End ######
-
-
-
 

@@ -1,7 +1,7 @@
 /*
  * ----------------------------------------------------------------
  * --- WARNING: THIS FILE IS GENERATED AND WILL BE OVERWRITTEN! ---
- * --- Generated at Jul 9, 2017 9:42:30 PM                      ---
+ * --- Generated at Jul 29, 2017 5:07:58 PM                     ---
  * ----------------------------------------------------------------
  */
 package com.cg.fashion.core.constants;
@@ -20,6 +20,9 @@ public class GeneratedFashionCoreConstants
 		public static final String APPARELSIZEVARIANTPRODUCT = "ApparelSizeVariantProduct".intern();
 		public static final String APPARELSTYLEVARIANTPRODUCT = "ApparelStyleVariantProduct".intern();
 		public static final String ELECTRONICSCOLORVARIANTPRODUCT = "ElectronicsColorVariantProduct".intern();
+		public static final String FASHIONPRODUCT = "FashionProduct".intern();
+		public static final String FASHIONSIZEVARIANTPRODUCT = "FashionSizeVariantProduct".intern();
+		public static final String FASHIONSTYLEVARIANTPRODUCT = "FashionStyleVariantProduct".intern();
 		public static final String SWATCHCOLORENUM = "SwatchColorEnum".intern();
 	}
 	public static class Attributes

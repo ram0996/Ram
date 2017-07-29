@@ -57,7 +57,8 @@
 		<property name="imageFormatMapping" ref="imageFormatMapping"/>
 		<property name="variantAttributeMapping">
 			<map>
-				<entry key="ApparelStyleVariantProduct.style" value="styleSwatch"/>
+				<!-- <entry key="ApparelStyleVariantProduct.style" value="styleSwatch"/> -->
+				<entry key="FashionStyleVariantProduct.style" value="styleSwatch"/>
 			</map>
 		</property>
 	</bean>
@@ -87,6 +88,8 @@
 		<property name="list" ref="productConverter"/>
 		<property name="add" ref="apparelProductPopulator"/>
 	</bean>
+	
+	
 
 	<!-- accelerator Image Format Mappings -->
 	<alias name="acceleratorImageFormatMapping" alias="imageFormatMapping"/>
@@ -185,4 +188,17 @@
 	</bean>
 
 	<bean id="genderData" class="com.cg.fashion.facades.product.data.GenderData" scope="prototype"/>
+	
+	<bean id="fashionProductPopulator" class="com.cg.fashion.facades.populators.FashionProductPopulator" >
+		<property name="genderConverter" ref="genderConverter"/>
+	</bean>
+	
+	
+	<!-- Add the fashionProductPopulator to the productConverter -->
+	<bean parent="modifyPopulatorList">
+		<property name="list" ref="productConverter"/>
+		<property name="add" ref="fashionProductPopulator"/>
+	</bean>
+	
+
 </beans>

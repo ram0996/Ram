@@ -72,7 +72,7 @@
 	<c:otherwise>
 	
 <%-- Determine if product is one of apparel style or size variant --%>
-		<c:if test="${product.variantType eq 'ApparelStyleVariantProduct'}">
+	<%-- 	<c:if test="${product.variantType eq 'ApparelStyleVariantProduct'}">
 			<c:set var="variantStyles" value="${product.variantOptions}" />
 		</c:if>
 		<c:if test="${(not empty product.baseOptions[0].options) and (product.baseOptions[0].variantType eq 'ApparelStyleVariantProduct')}">
@@ -85,7 +85,27 @@
 			<c:set var="variantSizes" value="${product.baseOptions[0].options}" />
 			<c:set var="currentStyleUrl" value="${product.baseOptions[1].selected.url}" />
 		</c:if>
+		<c:url value="${currentStyleUrl}" var="currentStyledProductUrl"/> --%>
+		
+		
+		
+		<%-- Determine if product is one of fashion style or size variant --%>
+		<c:if test="${product.variantType eq 'FashionStyleVariantProduct'}">
+			<c:set var="variantStyles" value="${product.variantOptions}"/>
+		</c:if>
+		<c:if test="${(not empty product.baseOptions[0].options) and (product.baseOptions[0].variantType eq 'FashionStyleVariantProduct')}">
+			<c:set var="variantStyles" value="${product.baseOptions[0].options}"/>
+			<c:set var="variantSizes" value="${product.variantOptions}"/>
+			<c:set var="currentStyleUrl" value="${product.url}"/>
+		</c:if>
+		<c:if test="${(not empty product.baseOptions[1].options) and (product.baseOptions[0].variantType eq 'FashionSizeVariantProduct')}">
+			<c:set var="variantStyles" value="${product.baseOptions[1].options}"/>
+			<c:set var="variantSizes" value="${product.baseOptions[0].options}"/>
+			<c:set var="currentStyleUrl" value="${product.baseOptions[1].selected.url}"/>
+		</c:if>
+		
 		<c:url value="${currentStyleUrl}" var="currentStyledProductUrl"/>
+		
 		<%-- Determine if product is other variant --%>
 		<c:if test="${empty variantStyles}">
 			<c:if test="${not empty product.variantOptions}">

@@ -1,7 +1,7 @@
 /*
  * ----------------------------------------------------------------
  * --- WARNING: THIS FILE IS GENERATED AND WILL BE OVERWRITTEN! ---
- * --- Generated at Jul 9, 2017 9:42:30 PM                      ---
+ * --- Generated at Jul 29, 2017 5:07:58 PM                     ---
  * ----------------------------------------------------------------
  */
 package com.cg.fashion.core.jalo;
@@ -11,6 +11,9 @@ import com.cg.fashion.core.jalo.ApparelProduct;
 import com.cg.fashion.core.jalo.ApparelSizeVariantProduct;
 import com.cg.fashion.core.jalo.ApparelStyleVariantProduct;
 import com.cg.fashion.core.jalo.ElectronicsColorVariantProduct;
+import com.cg.fashion.core.jalo.FashionProduct;
+import com.cg.fashion.core.jalo.FashionSizeVariantProduct;
+import com.cg.fashion.core.jalo.FashionStyleVariantProduct;
 import de.hybris.platform.jalo.Item;
 import de.hybris.platform.jalo.Item.AttributeMode;
 import de.hybris.platform.jalo.JaloBusinessException;
@@ -148,6 +151,84 @@ public abstract class GeneratedFashionCoreManager extends Extension
 	public ElectronicsColorVariantProduct createElectronicsColorVariantProduct(final Map attributeValues)
 	{
 		return createElectronicsColorVariantProduct( getSession().getSessionContext(), attributeValues );
+	}
+	
+	public FashionProduct createFashionProduct(final SessionContext ctx, final Map attributeValues)
+	{
+		try
+		{
+			ComposedType type = getTenant().getJaloConnection().getTypeManager().getComposedType( FashionCoreConstants.TC.FASHIONPRODUCT );
+			return (FashionProduct)type.newInstance( ctx, attributeValues );
+		}
+		catch( JaloGenericCreationException e)
+		{
+			final Throwable cause = e.getCause();
+			throw (cause instanceof RuntimeException ?
+			(RuntimeException)cause
+			:
+			new JaloSystemException( cause, cause.getMessage(), e.getErrorCode() ) );
+		}
+		catch( JaloBusinessException e )
+		{
+			throw new JaloSystemException( e ,"error creating FashionProduct : "+e.getMessage(), 0 );
+		}
+	}
+	
+	public FashionProduct createFashionProduct(final Map attributeValues)
+	{
+		return createFashionProduct( getSession().getSessionContext(), attributeValues );
+	}
+	
+	public FashionSizeVariantProduct createFashionSizeVariantProduct(final SessionContext ctx, final Map attributeValues)
+	{
+		try
+		{
+			ComposedType type = getTenant().getJaloConnection().getTypeManager().getComposedType( FashionCoreConstants.TC.FASHIONSIZEVARIANTPRODUCT );
+			return (FashionSizeVariantProduct)type.newInstance( ctx, attributeValues );
+		}
+		catch( JaloGenericCreationException e)
+		{
+			final Throwable cause = e.getCause();
+			throw (cause instanceof RuntimeException ?
+			(RuntimeException)cause
+			:
+			new JaloSystemException( cause, cause.getMessage(), e.getErrorCode() ) );
+		}
+		catch( JaloBusinessException e )
+		{
+			throw new JaloSystemException( e ,"error creating FashionSizeVariantProduct : "+e.getMessage(), 0 );
+		}
+	}
+	
+	public FashionSizeVariantProduct createFashionSizeVariantProduct(final Map attributeValues)
+	{
+		return createFashionSizeVariantProduct( getSession().getSessionContext(), attributeValues );
+	}
+	
+	public FashionStyleVariantProduct createFashionStyleVariantProduct(final SessionContext ctx, final Map attributeValues)
+	{
+		try
+		{
+			ComposedType type = getTenant().getJaloConnection().getTypeManager().getComposedType( FashionCoreConstants.TC.FASHIONSTYLEVARIANTPRODUCT );
+			return (FashionStyleVariantProduct)type.newInstance( ctx, attributeValues );
+		}
+		catch( JaloGenericCreationException e)
+		{
+			final Throwable cause = e.getCause();
+			throw (cause instanceof RuntimeException ?
+			(RuntimeException)cause
+			:
+			new JaloSystemException( cause, cause.getMessage(), e.getErrorCode() ) );
+		}
+		catch( JaloBusinessException e )
+		{
+			throw new JaloSystemException( e ,"error creating FashionStyleVariantProduct : "+e.getMessage(), 0 );
+		}
+	}
+	
+	public FashionStyleVariantProduct createFashionStyleVariantProduct(final Map attributeValues)
+	{
+		return createFashionStyleVariantProduct( getSession().getSessionContext(), attributeValues );
 	}
 	
 	@Override

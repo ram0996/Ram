@@ -11,8 +11,8 @@
 # ImpEx for Importing Categories
 
 # Macros / Replacement Parameter definitions
-$productCatalog=__PRODUCT_CATALOG_NAME__
-$productCatalogName=__PRODUCT_CATALOG_FULL_NAME__
+$productCatalog=fashionProductCatalog
+$productCatalogName=Fashion Product Catalog
 
 $catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
 
@@ -21,3 +21,12 @@ $lang=en
 
 # Create Categories
 UPDATE Category;code[unique=true];$catalogVersion;name[lang=$lang]
+;1;;Open Catalogue
+;100;;men
+;110;;shirts
+;120;;menjeans
+;130;;jackets
+;200;;women
+;210;;sarees
+;220;;womenjeans
+;230;;kurthas

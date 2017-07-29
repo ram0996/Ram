@@ -8,9 +8,10 @@
 # Information and shall use it only in accordance with the terms of the
 # license agreement you entered into with SAP.
 # -----------------------------------------------------------------------
+# 
+# Create the BaseStore
 #
-# Create the Fashion Store
-#
+
 $productCatalog=fashionProductCatalog
 $currencies=JPY,USD
 $net=false
@@ -21,19 +22,22 @@ $defaultLanguage=en
 $unitedKingdom=GB,GG,IM,JE
 $europeNotUK=AD,AL,AT,BA,BE,BG,BY,CH,CY,CZ,DE,DK,EE,ES,FI,FO,FR,GI,GL,GR,HR,HU,IE,IS,IT,LI,LT,LU,LV,MC,MD,ME,MK,MT,NL,NO,PL,PT,RO,RS,RU,SE,SI,SK,SM,TR,UA,VA
 $asianCountries=CN,JP,VN,HK,KP,KR
-$deliveryCountries=$unitedKingdom,$europeNotUK,$asianCountries,US,CA
+$deliveryCountries=$unitedKingdom,$europeNotUK,$asianCountries,US
 $orderProcessCode=order-process
 $pickupInStoreMode=BUY_AND_COLLECT
+$customerAllowedToIgnoreSuggestions=true
 $paymentProvider=Mockup
+$promoGrp=fashionPromoGrp
+$checkoutFlowGroup=defaultCheckoutGroup
 $expressCheckoutEnabled=true
 $returnProcessCode=return-process
 
 INSERT_UPDATE PromotionGroup;Identifier[unique=true];
-;fashionUKPromoGrp;
+;$promoGrp;
 
 # Base Store
-INSERT_UPDATE BaseStore;uid[unique=true];catalogs(id);currencies(isocode);net;taxGroup(code);storelocatorDistanceUnit(code);defaultCurrency(isocode);languages(isocode);defaultLanguage(isocode);deliveryCountries(isocode);submitOrderProcessCode;pickupInStoreMode(code);paymentProvider;expressCheckoutEnabled;maxRadiusForPoSSearch;checkoutFlowGroup;createReturnProcessCode;
-;$storeUid;$productCatalog;$currencies;$net;uk-taxes;miles;$defaultCurrency;$languages;$defaultLanguage;$deliveryCountries;$orderProcessCode;$pickupInStoreMode;$paymentProvider;$expressCheckoutEnabled;300;defaultCheckoutGroup;$returnProcessCode;
+INSERT_UPDATE BaseStore;uid[unique=true];catalogs(id);currencies(isocode);net;taxGroup(code);storelocatorDistanceUnit(code);defaultCurrency(isocode);languages(isocode);defaultLanguage(isocode);deliveryCountries(isocode);submitOrderProcessCode;pickupInStoreMode(code);customerAllowedToIgnoreSuggestions;paymentProvider;expressCheckoutEnabled;maxRadiusForPoSSearch;checkoutFlowGroup;createReturnProcessCode;
+;$storeUid;$productCatalog;$currencies;$net;jp-taxes;km;$defaultCurrency;$languages;$defaultLanguage;$deliveryCountries;$orderProcessCode;$pickupInStoreMode;$customerAllowedToIgnoreSuggestions;$paymentProvider;$expressCheckoutEnabled;300;$checkoutFlowGroup;$returnProcessCode;
 
 INSERT_UPDATE BaseStore2DeliveryModeRel;source(uid)[unique=true];target(code)[unique=true]
 ;fashion;premium-net

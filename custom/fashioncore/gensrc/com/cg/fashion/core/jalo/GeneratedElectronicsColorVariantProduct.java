@@ -1,7 +1,7 @@
 /*
  * ----------------------------------------------------------------
  * --- WARNING: THIS FILE IS GENERATED AND WILL BE OVERWRITTEN! ---
- * --- Generated at Jul 9, 2017 9:42:30 PM                      ---
+ * --- Generated at Jul 29, 2017 5:07:58 PM                     ---
  * ----------------------------------------------------------------
  */
 package com.cg.fashion.core.jalo;

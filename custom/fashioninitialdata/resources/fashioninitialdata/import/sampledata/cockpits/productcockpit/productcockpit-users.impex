@@ -9,8 +9,8 @@
 # license agreement you entered into with SAP.
 # -----------------------------------------------------------------------
 #
-# Import Sample Product Cockpit User
-# 
+# Import Product Cockpit Users
+#
 
 
 $defaultPassword=1234
