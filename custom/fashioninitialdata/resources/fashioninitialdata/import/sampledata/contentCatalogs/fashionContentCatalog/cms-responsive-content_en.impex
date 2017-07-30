@@ -93,9 +93,9 @@ UPDATE CMSNavigationNode;$contentCV[unique=true];uid[unique=true];title[lang=$la
 ;;FashionNavNode;"Fashion Site"
 ;;HybrisNavNode;"Hybris"
 ;;SiteRootNode;"SiteRoot"
-;;MenNavNode;Men
+;;MenNavNode;Men Clothes
 ;;MenLinkNavNode;Men
-;;WomenNavNode;Women
+;;WomenNavNode;Women Clothes
 ;;WomenLinkNavNode;Women
 
 # FAQ Page

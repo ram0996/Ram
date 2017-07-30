@@ -1,7 +1,7 @@
 /*
  * ----------------------------------------------------------------
  * --- WARNING: THIS FILE IS GENERATED AND WILL BE OVERWRITTEN! ---
- * --- Generated at Jul 29, 2017 5:07:58 PM                     ---
+ * --- Generated at Jul 30, 2017 11:14:15 AM                    ---
  * ----------------------------------------------------------------
  */
 package com.cg.fashion.test.constants;

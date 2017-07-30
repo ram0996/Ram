@@ -10,8 +10,8 @@
 # -----------------------------------------------------------------------
 $defaultPassword=12341234
 
-$storeUid=electronics
-$siteUid=electronics
+$storeUid=fashion
+$siteUid=fashion
 
 # Create sample users
 INSERT_UPDATE Customer;originalUid[unique=true];uid[unique=true];title(code);name;description;sessionLanguage(isocode);sessionCurrency(isocode);password[default=$defaultPassword]

@@ -14,8 +14,8 @@
 
 # Import qa-test-enterprise-warehouses.impex before this impex!
 
-$storeUid=electronics
-$productCatalog=electronicsProductCatalog
+$storeUid=fashion
+$productCatalog=fashionProductCatalog
 $catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
 $storeImage=storeImage(qualifier, $catalogVersion)
 
