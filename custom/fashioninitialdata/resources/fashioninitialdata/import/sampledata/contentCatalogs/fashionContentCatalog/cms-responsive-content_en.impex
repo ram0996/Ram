@@ -66,14 +66,14 @@ UPDATE CMSTabParagraphComponent;$contentCV[unique=true];uid[unique=true];title[l
 
 # CMS Paragraph Components
 UPDATE CMSParagraphComponent;$contentCV[unique=true];uid[unique=true];content[lang=$lang]
-;;ContactInfo;"Call us: +91 9066868854"
+
 
 # CMS Product References Components
 UPDATE ProductReferencesComponent;$contentCV[unique=true];uid[unique=true];title[lang=$lang]
 ;;CrossSelling;"You may also like..."
 ;;Others;"Accessories"
 ;;Similar;"You may also like..."
-;;accessories;"Accessories"
+
 
 # CMS PurchasedCategorySuggestionComponent Components
 UPDATE PurchasedCategorySuggestionComponent;$contentCV[unique=true];uid[unique=true];title[lang=$lang]
@@ -93,10 +93,13 @@ UPDATE CMSNavigationNode;$contentCV[unique=true];uid[unique=true];title[lang=$la
 ;;FashionNavNode;"Fashion Site"
 ;;HybrisNavNode;"Hybris"
 ;;SiteRootNode;"SiteRoot"
-;;MenNavNode;Men Clothes
-;;MenLinkNavNode;Men
-;;WomenNavNode;Women Clothes
-;;WomenLinkNavNode;Women
+;;MenLinkNavNode;"Men"
+;;WomenLinkNavNode;"Women"
+
+# CMS Navigation Nodes
+INSERT_UPDATE CMSNavigationNode;$contentCV[unique=true];uid[unique=true];title[lang=$lang]
+;;MenNavNode;"Men Clothes"
+;;WomenNavNode;"Women Clothes"
 
 # FAQ Page
 
@@ -266,7 +269,7 @@ UPDATE CMSParagraphComponent;$contentCV[unique=true];uid[unique=true];content[la
 
 # Site Logo Component
 UPDATE SimpleBannerComponent;$contentCV[unique=true];uid[unique=true];$picture[lang=$lang]
-;;SiteLogoComponent;/images/theme/logo_hybris_responsive.svg
+
 
 ##### DSLR Category Page ######
 
@@ -298,7 +301,6 @@ INSERT_UPDATE Media;mediaFormat(qualifier);code[unique=true];@media[translator=d
 
 INSERT_UPDATE MediaContainer;qualifier[unique=true];$medias;$contentCV[unique=true]
 
-;;ElectronicsCanon450DBannerComponent;electronics-canon-450-banner-en
 
 # Sony A100
 INSERT_UPDATE Media;mediaFormat(qualifier);code[unique=true];@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite=true];realfilename;altText;mime[default='image/jpeg'];$contentCV[unique=true];folder(qualifier)[default=images];
@@ -364,3 +366,22 @@ UPDATE CMSLinkComponent;$contentCV[unique=true];uid[unique=true];linkName[lang=$
 UPDATE FooterNavigationComponent;$contentCV[unique=true];uid[unique=true];notice[lang=$lang]
 ;;FooterNavigationComponent;"© 2017 Fashion Store"
 
+# Burbery Homepage
+# Media
+INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator];mime[default='image/jpeg'];&imageRef;altText
+;;slider1.jpg;$siteResource/images/banners/homepage/slider1.jpg;;slider1.jpg;;" "
+;;slider2.jpg;$siteResource/images/banners/homepage/slider2.jpg;;slider2.jpg;;" "
+;;slider3.jpg;$siteResource/images/banners/homepage/slider3.jpg;;slider3.jpg;;" "
+
+
+
+UPDATE SimpleBannerComponent;$contentCV[unique=true];uid[unique=true];$picture[lang=$lang]
+ 
+UPDATE BannerComponent;$contentCV[unique=true];uid[unique=true];headline[lang=en];$picture[lang=$lang];content[lang=en]
+;;slider1;Slid one;slider1.jpg;""
+;;slider2;Slid two;slider2.jpg;""
+;;slider3;Slid three;slider3.jpg;""
+
+
+UPDATE ProductCarouselComponent;$contentCV[unique=true];uid[unique=true];title[lang=$lang]
+;;FashionHomePageCarouselComponent;Our Bestselling Products
