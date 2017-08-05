@@ -66,6 +66,14 @@ INSERT_UPDATE CMSLinkComponent;$contentCV[unique=true];uid[unique=true];name;url
 ;;AccountManagePaymentDetailsLink;AccountManagePaymentDetailsLink;/my-account/payment-details;AccountManagePaymentDetailsLink;AccountManagePaymentDetailsLink;;;;
 ;;AccountOrderHistoryLink;AccountOrderHistoryLink;/my-account/orders;AccountOrderHistoryLink;AccountOrderHistoryLink;;;;
 ;;AccountViewOrderHistoryLink;AccountViewOrderHistoryLink;/my-account/orders;AccountViewOrderHistoryLink;AccountViewOrderHistoryLink;;;;
+;;MenCategoryLink;Men;/Open-Catalogue/men/c/100;MenCategoryLink;MenCategoryLink;;100;;
+;;ShirtsCategoryLink;Men SHirts Category;/Open-Catalogue/men/shirts/c/110;ShirtsCategoryLink;ShirtsCategoryLink;;110;;
+;;MenJeansCategoryLink;Men Jeans Category;/Open-Catalogue/men/menjeans/c/120;MenJeansCategoryLink;MenJeansCategoryLink;;120;;
+;;MenJacketCategoryLink;Men Jackets Category;/Open-Catalogue/men/jackets/c/130;MenJacketCategoryLink;MenJacketCategoryLink;;130;;
+;;WomenCategoryLink;Women;/Open-Catalogue/women/c/200;WomenCategoryLink;WomenCategoryLink;;200;;
+;;SareeCategoryLink;Sarees Category;/Open-Catalogue/women/sarees/c/210;SareeCategoryLink;SareeCategoryLink;;210;;
+;;WomenJeansCategoryLink;Women Jeans Category;/Open-Catalogue/women/womenjeans/c/220;WomenJeansCategoryLink;WomenJeansCategoryLink;;220;;
+;;KurthasCategoryLink;Kurthas Category;/Open-Catalogue/women/kurthas/c/230;KurthasCategoryLink;KurthasCategoryLink;;230;;
 
 INSERT_UPDATE BreadcrumbComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef
 ;;breadcrumbComponent;Breadcrumb CMS Component;breadcrumbComponent
@@ -80,6 +88,8 @@ INSERT_UPDATE MiniCartComponent;$contentCV[unique=true];uid[unique=true];name;&c
 
 # Navigation Bar Component
 INSERT_UPDATE NavigationBarComponent;$contentCV[unique=true];uid[unique=true];name;wrapAfter;link(uid, $contentCV);styleClass;&componentRef
+;;MenBarComponent;Men Link;10;MenCategoryLink;;MenBarComponent
+;;WomenBarComponent;Women Link;10;WomenCategoryLink;;WomenBarComponent
 
 # Account Navigation Bar Components
 INSERT_UPDATE AccountNavigationComponent;$contentCV[unique=true];uid[unique=true];name;navigationNode(&nodeRef);styleClass;&componentRef
@@ -95,7 +105,7 @@ INSERT_UPDATE AccountNavigationCollectionComponent;$contentCV[unique=true];uid[u
 
 # Navigation Bar Component
 INSERT_UPDATE NavigationBarCollectionComponent;$contentCV[unique=true];uid[unique=true];name;components(uid, $contentCV);&componentRef
-;;NavBarComponent;Navigation Bar Collection Componeent;;NavBarComponent
+;;NavBarComponent;Navigation Bar Collection Componeent;MenBarComponent,WomenBarComponent;NavBarComponent
 
 # CMS tabs components
 INSERT_UPDATE CMSTabParagraphComponent;$contentCV[unique=true];uid[unique=true];name;visible;&componentRef
@@ -195,6 +205,10 @@ INSERT_UPDATE CMSNavigationNode;uid[unique=true];$contentCV[unique=true];name;ch
 INSERT_UPDATE CMSNavigationNode;uid[unique=true];$contentCV[unique=true];name;parent(uid, $contentCV);links(&linkRef);&nodeRef
 ;SiteRootNode;;SiteRootNode;root;;SiteRootNode
 ;FashionNavNode;;Fashion Site;SiteRootNode;HomepageNavLink;FashionNavNode
+;MenNavNode;;Men Link;FashionNavNode;MenCategoryLink;MenNavNode
+;MenLinkNavNode;;MenLink;MenNavNode;ShirtsCategoryLink,MenJeansCategoryLink,MenJacketCategoryLink;MenLinkNavNode
+;WomenNavNode;;Women Link;FashionNavNode;WomenCategoryLink;WomenNavNode
+;WomenLinkNavNode;;Women Link;WomenNavNode;SareeCategoryLink,WomenJeansCategoryLink,KurthasCategoryLink;WomenLinkNavNode
 ;AcceleratorNavNode;;Accelerator Pages;FashionNavNode;AboutAcceleratorLink,FAQLink;AcceleratorNavNode
 ;HybrisNavNode;;Hybris Pages;FashionNavNode;AboutHybrisLink,ContactUsLink;HybrisNavNode
 ;FollowUsNavNode;;Follow Us Pages;FashionNavNode;AgileCommerceBlogLink,LinkedInLink,FacebookLink,TwitterLink;FollowUsNavNode
@@ -206,6 +220,8 @@ INSERT_UPDATE CMSNavigationNode;uid[unique=true];$contentCV[unique=true];name;pa
 
 # Navigation Bar Component
 INSERT_UPDATE NavigationBarComponent;$contentCV[unique=true];uid[unique=true];navigationNode(&nodeRef);dropDownLayout(code)
+;;MenBarComponent;MenNavNode
+;;WomenBarComponent;WomenNavNode
 
 INSERT_UPDATE NavigationBarComponent;$contentCV[unique=true];uid[unique=true];name;wrapAfter;navigationNode(&nodeRef);link(uid, $contentCV);styleClass;dropDownLayout(code);&componentRef
 

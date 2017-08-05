@@ -47,6 +47,14 @@ UPDATE CMSLinkComponent;$contentCV[unique=true];uid[unique=true];linkName[lang=$
 ;;HomepageNavLink;"Home"
 ;;LinkedInLink;"Linked In"
 ;;TwitterLink;"Twitter"
+;;ShirtsCategoryLink;"Shirts"
+;;MenJeansCategoryLink;"Jeans"
+;;MenJacketCategoryLink;"Jackets"
+;;SareeCategoryLink;"Sarees"
+;;WomenJeansCategoryLink;"Jeans"
+;;KurthasCategoryLink;"Kurthas"
+
+
 # Lightbox Banner for Mini Cart (banner is not localizable so we must create a separate banner per language)
 INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator];mime[default='image/jpeg'];&imageRef;folder(qualifier)[default='images'];altText
 ;;Elec_358x45_HomeDeliveryBanner_EN_01.gif;$siteResource/images/banners/site/Elec_358x45_HomeDeliveryBanner_EN_01.gif;;Elec_358x45_HomeDeliveryBanner_EN_01.gif;;"Order before 6pm for next day delivery"
@@ -100,6 +108,10 @@ UPDATE CMSNavigationNode;$contentCV[unique=true];uid[unique=true];title[lang=$la
 ;;FashionNavNode;"Fashion Site"
 ;;HybrisNavNode;"Hybris"
 ;;SiteRootNode;"SiteRoot"
+;;MenNavNode;Men Clothes
+;;MenLinkNavNode;Men
+;;WomenNavNode;Women Clothes
+;;WomenLinkNavNode;Women
 
 # FAQ Page
 
