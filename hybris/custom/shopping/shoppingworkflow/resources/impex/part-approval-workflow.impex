@@ -1,0 +1,125 @@
+$language=en
+$defaultPassword=1234
+#####################
+#### USER GROUP #####
+#####################
+
+INSERT_UPDATE UserGroup	; uid[unique=true]				;locName[lang=$language]		;groups(uid)[mode=append]											;readableLanguages(isocode)	;writeableLanguages(isocode)			
+						; authorgroup					;Author group					;cockpitgroup,employeegroup											;$language					;$language
+						; approvergroup					;Approver group					;cockpitgroup,employeegroup											;$language					;$language
+						; globalproductauthorgroup		;Global Product Author Group	;authorgroup,productmanagergroup									;$language					;$language
+						; globalproductapprovergroup	;Global Product Approver Group	;approvergroup,backofficeworkflowadmingroup,productmanagergroup									;$language					;$language
+		
+
+
+#################################
+###  GLOBAL PRODUCT AUTHOR  #####
+#################################
+$START_USERRIGHTS
+Type;UID;MemberOfGroups;Password;Target;read;change;create;remove;change_perm;;
+UserGroup;globalproductauthorgroup;employeegroup;;;;;;;;;
+;;;;WorkflowTemplate;+;;;;;;
+;;;;Workflow;+;;;;;;
+;;;;AbstractWorkflowAction;+;;;;;;
+;;;;WorkflowActionTemplate;+;;;;;;
+
+;;;;WorkflowAction;+;+;;;-;;
+;;;;WorkflowAction.name;+;;;;;;
+;;;;WorkflowAction.attachments;+;;;;;;
+
+;;;;WorkflowItemAttachment;+;;;;;;
+;;;;WorkflowActionStatus;+;;;;;;
+;;;;WorkflowActionComment ;;;+;;;;
+;;;;WorkflowDecision ;+;+;;;;;
+;;;;WorkflowActionLinkRelation ;+;+;;;;;
+;;;;BackofficeRole;+;+;;;;;
+;;;;ArticleApprovalStatus;+;+;;;;;
+;;;;Product;+;+;;;;
+;;;;Category;+;+;;;;
+;;;;VariantType;+;;;;;
+;;;;BaseSite;+;+;-;-;-;
+;;;;BaseStore;+;-;-;-;-;
+;;;;Catalog;+;;;;;
+;;;;CatalogVersion;+;;;;;
+;;;;ContentCatalog;+;+;+;+;+;
+;;;;MediaContainer;+;+;-;-;-;
+;;;;MediaContext;+;+;-;-;-;
+;;;;MediaFormat;+;+;-;-;-;
+;;;;MediaFormatMapping;+;+;-;-;-;
+
+;;;;InboxView;+;+;;;;;
+$END_USERRIGHTS
+
+
+#################################
+###  GLOBAL PRODUCT APPROVER  ###
+#################################
+$START_USERRIGHTS
+Type;UID;MemberOfGroups;Password;Target;read;change;create;remove;change_perm;;
+UserGroup;globalproductapprovergroup;employeegroup;;;;;;;;;
+;;;;WorkflowTemplate;+;;;;;;
+;;;;Workflow;+;;;;;;
+;;;;AbstractWorkflowAction;+;;;;;;
+;;;;WorkflowActionTemplate;+;;;;;;
+
+;;;;WorkflowAction;;;;;-;;
+;;;;WorkflowAction.name;+;;;;;;
+;;;;WorkflowAction.attachments;+;;;;;;
+
+;;;;WorkflowItemAttachment;+;;;;;;
+;;;;WorkflowActionStatus;+;;;;;;
+;;;;WorkflowActionComment ;;;+;;;;
+;;;;WorkflowDecision ;+;;;;;;
+;;;;WorkflowActionLinkRelation ;+;;;;;;
+
+;;;;InboxView;+;;;;;;
+$END_USERRIGHTS
+
+#################################
+###  GENERIC COCKPIT USER  	  ###
+#################################
+
+INSERT_UPDATE Employee;uid[unique=true];name;password;groups(uid);sessionLanguage(isocode);sessionCurrency(isocode);hmcLoginDisabled[dafault=true]
+						;globalproductauthor; Global Product Author; $defaultPassword;globalproductauthorgroup;en;INR
+						;globalproductapprover; Global Product Approver; $defaultPassword;globalproductapprovergroup;en;INR
+
+
+INSERT_UPDATE WorkflowTemplate;code[unique=true];name[lang=en];owner(uid);description[lang=en];activationscript
+;PartApprovalWorkflowTemplate;New Part Approval Workflow Template;admin;Part Approval Workflow;
+
+
+INSERT_UPDATE RendererTemplate;code[unique=true];rendererType(code);description[lang=en];contextClass;outputMimeType;templateScript[lang=en];
+;productApprovalWorkflowEmailTemplate;velocity;Template to notify approver about the changes;de.hybris.platform.workflow.mail.impl.WorkflowMailContextImpl;text/html;"<html>
+<head>
+<meta http-equiv=""content-type"" content=""text/html; charset=UTF-8"">
+<title> Changes to Product Record</title>
+</head>
+<body>
+<div>
+	<p>Dear Approver</p>
+	<p>The following Changes were made by editor for product record :</p>
+	
+	<p>Please approve the following product, </p>
+		Product PK, ${ctx.attachmentPK} <br>
+		Product Name ${ctx.attachmentName}
+		<p>Thank you</p>
+</div>
+</body>
+</html>";
+
+INSERT_UPDATE WorkflowActionTemplate;code[unique=true];name[lang=en];description[lang=en];principalAssigned(uid);workflow(code)[unique=true];sendEmail;emailAddress;rendererTemplate(code);actionType(code)
+;setCheckAction;Author has to check the product;Author has to check the product;globalproductauthor;PartApprovalWorkflowTemplate;true;venkat05.hybris@gmail.com;productApprovalWorkflowEmailTemplate;start
+;setApprovalAction;Approver has to (un) approve product;Approver has to (un) approve product;globalproductapprover;PartApprovalWorkflowTemplate;false;venkat05.hybris@gmail.com;productApprovalWorkflowEmailTemplate;normal
+;EndInProcess;End part approval;Part Approval flow ended;globalproductapprover;PartApprovalWorkflowTemplate;false;;;end
+
+
+INSERT_UPDATE WorkflowDecisionTemplate;code[unique=true];name[lang=en];actionTemplate(code);description[lang=en]
+;Check;check the product;setCheckAction;Checking
+;approved;product is approved;setApprovalAction;approved
+;unapproved;product is unapproved;setApprovalAction;un-approved
+
+
+insert_update WorkflowActionTemplateLinkTemplateRelation;source(code)[unique=true];target(code)[unique=true];andConnectionTemplate;qualifier
+;Check;setApprovalAction;false;WorkflowActionTemplateLinkTemplateRelation
+;approved;EndInProcess;false;WorkflowActionTemplateLinkTemplateRelation
+;unapproved;setCheckAction;false;WorkflowActionTemplateLinkTemplateRelation

@@ -1,0 +1,92 @@
+<hybrisconfig xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='../bin/platform/resources/schemas/extensions.xsd'>
+  <extensions>
+    <path dir='${HYBRIS_BIN_DIR}' autoload='false' />
+    <extension name="adaptivesearchwebservices"/>
+		<extension name="solrfacetsearchbackoffice"/>
+		<extension name="backofficesolrsearch"/>
+		<extension name="cmsbackoffice" />
+		<extension name="pcmbackoffice" />
+		<extension name="embeddedserver" />
+		<extension name="platformbackoffice" />
+		<extension name="mediaconversionbackoffice" />
+		<extension name="commerceservicesbackoffice" />
+		<extension name="cmswebservices" />
+		<extension name="basecommercebackoffice" />
+		<extension name="commerceservices" />
+		<extension name="basecommerce" />
+		<extension name="payment" />
+		<extension name="promotionsbackoffice" />
+		<extension name="rulebuilderbackoffice" />
+		<extension name="ruleenginebackoffice" />
+		<extension name="promotionenginebackoffice" />
+		<extension name="droolsruleengineservices" />
+		<extension name="adaptivesearch" />
+		<extension name="adaptivesearchbackoffice" />
+		<extension name="adaptivesearchfacades" />
+		<extension name="adaptivesearchsolr" />
+		<extension name="couponbackoffice" />
+		<extension name="customercouponbackoffice" />
+		<extension name="wishlist" />
+		<extension name="customerreview" />
+		<extension name="ticketsystembackoffice" />
+		<extension name="ticketsystem" />
+		<extension name="solrfacetsearch" />
+		<extension name="solrserver" />
+		<extension name="commercewebservicescommons" />
+		<extension name="cmsoccaddon" />
+		<extension name="commercefacades" />
+		<extension name="cms2" />
+		<extension name="cms2lib" />
+		<extension name="cmscockpit" />
+		<extension name="addonsupport" />
+		<extension name="acceleratorservices" />
+		<extension name="acceleratorfacades" />
+		<extension name="acceleratorcms" />
+		<extension name="acceleratorstorefrontcommons" />
+		<extension name="warehousingwebservices" />
+		<extension name="ordermanagementwebservices" />
+		<extension name="ordermanagementaddon" />
+		<extension name="customersupportbackoffice" />
+		<extension name="warehousingbackoffice" />
+		<extension name="warehousing" />
+		<extension name="couponfacades" />
+		<extension name="couponservices" />
+		<extension name="couponwebservices" />
+		<extension name="couponbackoffice" />
+		<extension name="promotionengineservices" />
+		<extension name="ruledefinitions" />
+		<extension name="subscriptionbackoffice" />
+		<extension name="smartedit" />
+		<extension name="cmssmartedit" />
+		<extension name="cmssmarteditwebservices" />
+		<extension name="cmswebservices" />
+		<extension name="permissionswebservices" />
+		<extension name="previewwebservices" />
+		<extension name="smarteditaddon" />
+		<extension name="smarteditwebservices" />
+		<extension name="personalizationservicesbackoffice" />
+		<extension name="personalizationcmsbackoffice" />
+		<extension name="previewpersonalizationweb" />
+		<extension name="personalizationcmsweb" />
+		<extension name="personalizationsmartedit" /> 
+		<extension name='mediaconversion' />
+		<extension name='workflow'/>
+		
+	 <extension name='shoppingcore'/>
+     <extension name='shoppingbackoffice'/>
+     <extension name='shoppingfacades'/>
+     <extension name='shoppingfulfilmentprocess'/>
+     <extension name='shoppinginitialdata'/>
+     <extension name='shoppingstorefront'/>
+      <extension name='shoppingworkflow'/>
+     
+     <extension name='affirmpaymentaddon' />
+	<extension name='affirmpaymentcore' />
+	<extension name='affirmpaymentfulfilmentprocess' />
+	
+	<extension name="shoppingwebservices"/>
+	<!-- <extension name='shoppingstorefrontaddon'/> -->
+	<extension name="shoppingbackoffice"/>
+
+  </extensions>
+</hybrisconfig>

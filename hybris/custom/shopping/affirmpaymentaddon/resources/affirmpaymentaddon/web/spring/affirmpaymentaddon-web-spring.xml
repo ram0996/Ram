@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2018 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+           
+    <context:annotation-config/>
+
+    <context:component-scan base-package="com.affirm.payment.controllers.form.validator" />
+
+	<!-- Expose /acceleratoraddon/web/webroot/WEB-INF/messages/base.js.properties  resource bundle as javascript variables -->
+	<bean id="defaultAffirmpaymentaddonJavaScriptMessageResourceAccessor" parent="abstractJavaScriptMessageResourceAccessor">
+		<property name="addOnName" value="affirmpaymentaddon"/>
+	</bean>
+
+	<bean id="defaultAffirmpaymentaddonBeforeViewJsPropsHandlerAdaptee" parent="abstractBeforeViewJsPropsHandlerAdaptee" class="com.affirm.payment.interceptor.AffirmExportJsPropertiesBeforeViewHandler">
+		<property name="messageSource" ref="defaultAffirmpaymentaddonJavaScriptMessageResourceAccessor"/>
+	</bean>
+
+	<bean id="getAffirmpaymentaddonBeforeViewHandler" parent="beforeViewHandlerAdapter">
+		<property name="adaptee">
+			<ref bean="defaultAffirmpaymentaddonBeforeViewJsPropsHandlerAdaptee"/>
+		</property>
+	</bean>
+	<bean id="AffirmpaymentaddonBeforeViewHandlerListMergeDirective" depends-on="beforeViewHandlersList" parent="listMergeDirective">
+		<property name="add" ref="getAffirmpaymentaddonBeforeViewHandler"/>
+	</bean>
+
+	<bean id="affirmCategoryCMSRenderer" class="com.affirm.payment.category.cmsrenderer.AffirmProductListingCMSRenderer" parent="genericAddOnCMSComponentRenderer"/>
+
+	<bean id="affirmProductListingComponentRendererMapping" parent="addonCmsComponentRendererMapping" >
+		<property name="typeCode" value="CMSProductListComponent" />
+		<property name="renderer" ref="affirmCategoryCMSRenderer" />
+	</bean>
+
+	<bean id="affirmProductGridListingComponentRendererMapping" parent="addonCmsComponentRendererMapping" >
+		<property name="typeCode" value="ProductGridComponent" />
+		<property name="renderer" ref="affirmCategoryCMSRenderer" />
+	</bean>
+
+
+
+    <bean id="affirmRequestConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.affirm.checkout.pojo.AffirmCheckoutData"/>
+        <property name="populators">
+            <list>
+                <bean class="com.affirm.payment.converter.AffirmCheckoutDataPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="affirmAddressFormConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.commercefacades.user.data.AddressData"/>
+        <property name="populators">
+            <list>
+                <bean class="com.affirm.payment.converter.AffirmFormAddressDataPopulator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="affirmTrackingOrderConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.affirm.checkout.pojo.AffirmOrderTrackingResult"/>
+        <property name="populators">
+            <list>
+                <bean class="com.affirm.payment.converter.AffirmOrderTrackingDataPopulator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="affirmPaymentController" class="com.affirm.payment.controllers.pages.AffirmPaymentController"/>
+    <bean id="paymentMethodCheckoutStepController" class="com.affirm.payment.controllers.pages.PaymentMethodCheckoutStepController" />
+    <bean id="sopPaymentResponseController" class="com.affirm.payment.controllers.pages.SopPaymentResponseController" />
+    <bean id="summaryCheckoutStepController" class="com.affirm.payment.controllers.pages.SummaryCheckoutStepController" />
+    <bean id="checkoutController" class="com.affirm.payment.controllers.pages.AffirmCheckoutController" />
+
+
+</beans>

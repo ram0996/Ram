@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry exported="true" kind="lib" path="resources"/>
+	<classpathentry kind="src" output="eclipsebin/classes" path="src"/>
+	<classpathentry exported="true" kind="src" path="/acceleratorcms"/>
+	<classpathentry exported="true" kind="src" path="/mediaconversion"/>
+	<classpathentry exported="true" kind="src" path="/solrserver"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="/platform"/>
+	<classpathentry kind="src" path="gensrc"/>
+	<classpathentry kind="src" output="eclipsebin/classes" path="testsrc"/>
+	<classpathentry kind="output" path="eclipsebin/notused"/>
+</classpath>

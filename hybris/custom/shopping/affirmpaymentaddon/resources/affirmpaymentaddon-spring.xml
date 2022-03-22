@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2018 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+           
+    <context:annotation-config/> 
+
+	<bean id="affirmpaymentaddonCoreDataImportedEventListener" parent="abstractCoreDataImportedEventListener">
+		<property name="supportedChannels">
+			<list value-type="de.hybris.platform.commerceservices.enums.SiteChannel">
+				<value>B2C</value>
+				<!--
+								<value>B2B</value>
+				-->
+			</list>
+		</property>
+		<property name="addonExtensionMetadata">
+			<bean class="de.hybris.platform.addonsupport.data.AddonExtensionMetadata">
+				<property name="suffixChannel" value="false"/>
+				<property name="baseExtensionName" value="affirmpaymentaddon"/>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="affirmpaymentaddonSampleDataEventListener" parent="abstractGenericAddOnSampleDataEventListener"  >
+		<property name="extensionName" value="affirmpaymentaddon" />
+	</bean>
+
+    <alias name="defaultAffirmPaymentFacade" alias="affirmPaymentFacade" />
+    <bean id="defaultAffirmPaymentFacade" class="com.affirm.payment.facade.impl.DefaultAffirmPaymentFacade">
+    </bean>
+
+
+    <alias name="extendedDefaultAcceleratorCheckoutFacade" alias="checkoutFlowFacade"/>
+    <bean id="extendedDefaultAcceleratorCheckoutFacade" class="com.affirm.payment.facade.impl.ExtendedDefaultAcceleratorCheckoutFacade" parent="defaultCheckoutFlowFacade" >
+        <property name="sessionService" ref="sessionService"/>
+    </bean>
+
+
+
+
+    <alias name="affirmCreditCardPaymentInfoConverter" alias="creditCardPaymentInfoConverter"/>
+    <bean id="affirmCreditCardPaymentInfoConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.commercefacades.order.data.CCPaymentInfoData"/>
+        <property name="populators">
+            <list>
+                <ref bean="creditCardPaymentInfoPopulator"/>
+                <ref bean="affirmCreditCardPaymentInfoPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultAffirmCreditCardPaymentInfoPopulator" alias="affirmCreditCardPaymentInfoPopulator"/>
+    <bean id="defaultAffirmCreditCardPaymentInfoPopulator" class="com.affirm.payment.converters.populators.AffirmCreditCardPaymentInfoPopulator" />
+
+    <alias name="affirmOrderConverter" alias="orderConverter"/>
+    <bean id="affirmOrderConverter" parent="accOrderConverter">
+        <property name="populators">
+            <list merge="true">
+                <bean class="com.affirm.payment.converters.populators.AffirmPaymentOrderDataPopulator" />
+            </list>
+        </property>
+    </bean>
+
+
+    <alias name="defaultAffirmPaymentInfoConverter" alias="affirmPaymentInfoConverter"/>
+    <bean id="defaultAffirmPaymentInfoConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.commercefacades.order.data.CCPaymentInfoData"/>
+        <property name="populators">
+            <list>
+                <ref bean="affirmPaymentInfoPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultAffirmPaymentInfoPopulator" alias="affirmPaymentInfoPopulator"/>
+    <bean id="defaultAffirmPaymentInfoPopulator"  class="com.affirm.payment.converters.populators.AffirmPaymentInfoPopulator">
+        <property name="addressConverter" ref="addressConverter"/>
+    </bean>
+
+
+</beans>

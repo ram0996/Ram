@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2018 SAP SE or an SAP affiliate company. All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <alias alias="affirmPaymentServiceExecutor" name="defaultAffirmPaymentServiceExecutor" />
+    <bean id="defaultAffirmPaymentServiceExecutor" class="com.affirm.payment.service.executor.DefaultAffirmPaymentServiceExecutor">
+        <property name="providers">
+            <set>
+                <ref bean="affirmAuthorisationServiceProvider" />
+                <ref bean="affirmRefundServiceProvider" />
+                <ref bean="affirmCaptureServiceProvider" />
+                <ref bean="affirmVoidServiceProvider" />
+                <ref bean="affirmUpdateServiceProvider" />
+            </set>
+        </property>
+    </bean>
+
+    <bean abstract="true" id="defaultAffirmPaymentEndpointStrategy" class="com.affirm.payment.service.executor.strategy.DefaultAffirmPaymentEndpointStrategy">
+        <property name="mapping">
+            <map>
+                <entry key="CHARGE_ID" value="chargeId" />
+            </map>
+        </property>
+    </bean>
+
+    <alias name="defaultAffirmAuthorisationServiceProvider" alias="affirmAuthorisationServiceProvider" />
+    <bean id="defaultAffirmAuthorisationServiceProvider" class="com.affirm.payment.service.executor.provider.DefaultAffirmJsonPaymentServiceProvider" >
+        <property name="paymentTransactionType" value="AUTHORIZATION"/>
+        <property name="requestConverter" ref="authRequestConverter"/>
+        <property name="affirmPaymentEndpointStrategy" >
+            <bean parent="defaultAffirmPaymentEndpointStrategy" >
+                <property name="urlPattern" value="#{configurationService.configuration.getProperty('affirm.authorisation.endpoint')}" />
+            </bean>
+        </property>
+        <property name="affirmPaymentResponseStrategy">
+            <bean class="com.affirm.payment.service.executor.response.AffirmAuthorisationPaymentResponseStrategy" />
+        </property>
+    </bean>
+    <alias name="defaultAuthRequestConverter" alias="authRequestConverter" />
+    <bean id="defaultAuthRequestConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="java.util.HashMap"/>
+        <property name="populators">
+            <list>
+                <bean class="com.affirm.payment.service.executor.request.populator.AffirmAuthRequestPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultAffirmRefundServiceProvider" alias="affirmRefundServiceProvider"/>
+    <bean id="defaultAffirmRefundServiceProvider"
+          class="com.affirm.payment.service.executor.provider.DefaultAffirmJsonPaymentServiceProvider">
+        <property name="paymentTransactionType" value="REFUND_STANDALONE"/>
+        <property name="requestConverter" ref="affirmRefundRequestConverter"/>
+        <property name="affirmPaymentEndpointStrategy">
+            <bean parent="defaultAffirmPaymentEndpointStrategy">
+                <property name="urlPattern" value="#{configurationService.configuration.getProperty('affirm.refund.endpoint')}"/>
+            </bean>
+        </property>
+        <property name="affirmPaymentResponseStrategy">
+            <bean class="com.affirm.payment.service.executor.response.AffirmRefundPaymentResponseStrategy"/>
+        </property>
+    </bean>
+    <alias name="defaultAffirmRefundRequestConverter" alias="affirmRefundRequestConverter"/>
+    <bean id="defaultAffirmRefundRequestConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="java.util.HashMap"/>
+        <property name="populators">
+            <list>
+                <bean class="com.affirm.payment.service.executor.request.populator.AffirmRefundRequestPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <alias name="defaultAffirmCaptureServiceProvider" alias="affirmCaptureServiceProvider" />
+    <bean id="defaultAffirmCaptureServiceProvider" class="com.affirm.payment.service.executor.provider.DefaultAffirmJsonPaymentServiceProvider" >
+        <property name="paymentTransactionType" value="CAPTURE"/>
+        <property name="requestConverter" ref="captureRequestConverter"/>
+        <property name="affirmPaymentEndpointStrategy" >
+            <bean parent="defaultAffirmPaymentEndpointStrategy" >
+                <property name="urlPattern" value="#{configurationService.configuration.getProperty('affirm.capture.endpoint')}" />
+            </bean>
+        </property>
+        <property name="affirmPaymentResponseStrategy">
+            <bean class="com.affirm.payment.service.executor.response.AffirmProperyPresentPaymentResponseStrategy" >
+                <property name="property" value="transaction_id" />
+            </bean>
+        </property>
+    </bean>
+    <alias name="defaultCaptureRequestConverter" alias="captureRequestConverter" />
+    <bean id="defaultCaptureRequestConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="java.util.HashMap"/>
+        <property name="populators">
+            <list>
+                <bean class="com.affirm.payment.service.executor.request.populator.AffirmCaptureRequestPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultAffirmVoidServiceProvider" alias="affirmVoidServiceProvider" />
+    <bean id="defaultAffirmVoidServiceProvider" class="com.affirm.payment.service.executor.provider.DefaultAffirmJsonPaymentServiceProvider" >
+        <property name="paymentTransactionType" value="CANCEL"/>
+        <property name="requestConverter" ref="voidRequestConverter"/>
+        <property name="affirmPaymentEndpointStrategy" >
+            <bean parent="defaultAffirmPaymentEndpointStrategy" >
+                <property name="urlPattern" value="#{configurationService.configuration.getProperty('affirm.void.endpoint')}" />
+            </bean>
+        </property>
+        <property name="affirmPaymentResponseStrategy">
+            <bean class="com.affirm.payment.service.executor.response.AffirmProperyPresentPaymentResponseStrategy" >
+                <property name="property" value="transaction_id" />
+            </bean>
+        </property>
+    </bean>
+    <alias name="defaultVoidRequestConverter" alias="voidRequestConverter" />
+    <bean id="defaultVoidRequestConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="java.util.HashMap"/>
+        <property name="populators">
+            <list>
+                <bean class="com.affirm.payment.service.executor.request.populator.AffirmVoidRequestPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <alias name="defaultAffirmUpdateServiceProvider" alias="affirmUpdateServiceProvider" />
+    <bean id="defaultAffirmUpdateServiceProvider" class="com.affirm.payment.service.executor.provider.DefaultAffirmJsonPaymentServiceProvider" >
+        <property name="paymentTransactionType" value="UPDATE"/>
+        <property name="requestConverter" ref="updateRequestConverter"/>
+        <property name="affirmPaymentEndpointStrategy" >
+            <bean parent="defaultAffirmPaymentEndpointStrategy" >
+                <property name="urlPattern" value="#{configurationService.configuration.getProperty('affirm.update.endpoint')}" />
+            </bean>
+        </property>
+        <property name="affirmPaymentResponseStrategy">
+            <bean class="com.affirm.payment.service.executor.response.AffirmProperyPresentPaymentResponseStrategy" >
+                <property name="property" value="id§" />
+            </bean>
+        </property>
+    </bean>
+    <alias name="defaultUpdateRequestConverter" alias="updateRequestConverter" />
+    <bean id="defaultUpdateRequestConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="java.util.HashMap"/>
+        <property name="populators">
+            <list>
+                <bean class="com.affirm.payment.service.executor.request.populator.AffirmUpdateRequestPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="commercePlaceUpdateOrderIdOrderMethodHook" depends-on="commercePlaceOrderMethodHooks" parent="listMergeDirective" >
+        <property name="add" ref="orderUpdateOrderMethodHook" />
+    </bean>
+    <alias name="defaultOrderUpdateOrderMethodHook" alias="orderUpdateOrderMethodHook"/>
+    <bean id="defaultOrderUpdateOrderMethodHook" class="com.affirm.payment.commerceservices.order.hook.impl.AffirmOrderUpdateOrderMethodHook">
+        <property name="affirmPaymentService" ref="affirmPaymentService" />
+        <property name="affirmPaymentCoreService" ref="affirmPaymentCoreService" />
+    </bean>
+
+
+</beans>

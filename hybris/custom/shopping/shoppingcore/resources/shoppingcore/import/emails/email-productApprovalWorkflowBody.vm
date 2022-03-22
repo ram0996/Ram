@@ -1,0 +1,18 @@
+
+Dear $ctx.user.name
+
+<p> Please review below products, take your decision </p>
+
+<table border="1" align="center">
+	<tr>
+		<td>Product Code</td>
+		<td>Approval Status</td>
+	</tr>
+	#foreach($entry in $ctx.product)
+	<tr>
+		<td>$entry.code</td>
+		<td>$entry.approvalStatus.code</td>
+	</tr>
+	#end	
+</table>
+

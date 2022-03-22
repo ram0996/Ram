@@ -1,0 +1,25 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Categories
+
+# Macros / Replacement Parameter definitions
+$productCatalog=shoppingProductCatalog
+$productCatalogName=Shopping Product Catalog
+
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+
+# Language
+$lang=en
+
+# Create Categories
+UPDATE Category;code[unique=true];$catalogVersion;name[lang=$lang]
+;1;;Categories
+;men_100;;Men
+;100;;Jeans
+;200;;Shirts
+;300;;Shoes
+;women_1000;;Women
+;1000;;Jeans
+;1100;;Shirts
+;1200;;Shoes

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+    <bean id="shoppingworkflowSystemSetup" class="com.shopping.workflow.setup.ShoppingworkflowSystemSetup">
+        <constructor-arg ref="shoppingworkflowService"/>
+    </bean>
+
+    <bean id="shoppingworkflowService" class="com.shopping.workflow.service.impl.DefaultShoppingworkflowService">
+        <property name="modelService" ref="modelService"/>
+        <property name="mediaService" ref="mediaService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+    
+    <!-- <bean id="shoppingNewPartWorkFlowCronJob" class="com.shopping.workflow.job.ShoppingNewPartWorkflowCronJob" parent="abstractJobPerformable"/>
+    <bean id="newPartsJob" class="com.shopping.workflow.job.NewPartsJob" parent="abstractJobPerformable"/>
+    
+    <bean id="newPartDefinition" class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+    	<property name="resource" value="classpath:/process/newpartworkflow.xml"/>
+    </bean>
+    
+    <bean id="informNewPartAction" class="com.shopping.workflow.process.action.InformNewPartAction" parent="abstractAction"/>
+    <bean id="remindMeLaterNotificationAction" class="com.shopping.workflow.process.action.RemindMeLaterNotificationAction"/> -->
+    
+    <bean id="newPartDefinition"
+		class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+		<property name="resource" value="classpath:/process/newpartworkflow.xml" />
+	</bean>
+     <bean id="newPartsJob" class="com.shopping.workflow.job.NewPartsJob" parent="abstractJobPerformable"/>
+    <bean id="shoppingWorkflowDao" class="com.shopping.workflow.dao.impl.ShoppingWorkflowDaoImpl"/>
+    <bean id="shoppingWorkflowEmailContext" class="com.shopping.workflow.email.context.ShoppingWorkflowEmailContext"/>
+    <bean id="shoppingEmailService" class="com.shopping.workflow.email.service.impl.ShoppingEmailServiceImpl"/>
+    <bean id="informNewPartAction" class="com.shopping.workflow.process.action.InformNewPartAction" parent="abstractAction"/>
+    <bean id="startApprovalWorkFlowAction" class="com.shopping.workflow.process.action.StartApprovalWorkFlowAction"/>
+    
+    <bean id="shoppingProductPrepareInterceptor" class="com.shopping.workflow.interceptor.ShoppingProductPrepareInterceptor"/>
+    
+    <bean id="shoppingProductPrepareInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+    	<property name="interceptor" ref="shoppingProductPrepareInterceptor"/>
+    	<property name="typeCode" value="Product"/>
+	</bean>	
+	
+	<bean id="shoppingNewPartWorkFlowCronJob" class="com.shopping.workflow.job.ShoppingNewPartWorkflowCronJob" parent="abstractJobPerformable"/>
+	<bean id="shoppingProductApprovalWorkflowEmailContext" class="com.shopping.workflow.email.context.ShoppingProductApprovalWorkflowEmailContext"/>
+</beans>

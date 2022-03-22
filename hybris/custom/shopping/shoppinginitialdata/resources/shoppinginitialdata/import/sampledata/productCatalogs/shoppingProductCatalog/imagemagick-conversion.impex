@@ -1,0 +1,9 @@
+INSERT_UPDATE ConversionMediaFormat; qualifier[unique = true]; name[lang = en]; ; conversionStrategy; conversion
+; 1200Wx1200H ; superZoomConversionMediaFormat   ; superZoomConversionMediaFormat   ; imageMagickMediaConversionStrategy ; -resize 1200x1200 -background white -gravity center -extent 1200x1200
+; 600Wx600H   ; zoomConversionMediaFormat        ; zoomConversionMediaFormat        ; imageMagickMediaConversionStrategy ; -resize 600x600 -background white -gravity center -extent 600x600
+; 365Wx246H   ; storeConversionMediaFormat       ; storeConversionMediaFormat       ; imageMagickMediaConversionStrategy ; -resize 365x246 -background white -gravity center -extent 365x246
+; 300Wx300H   ; productConversionMediaFormat     ; productConversionMediaFormat     ; imageMagickMediaConversionStrategy ; -resize 300x300 -background white -gravity center -extent 300x300
+; 96Wx96H     ; thumbnailConversionMediaFormat   ; thumbnailConversionMediaFormat   ; imageMagickMediaConversionStrategy ; -resize 96x96 -background white -gravity center -extent 96x96
+; 65Wx65H     ; cartIconConversionMediaFormat    ; cartIconConversionMediaFormat    ; imageMagickMediaConversionStrategy ; -resize 65x65 -background white -gravity center -extent 65x65
+; 30Wx30H     ; styleSwatchConversionMediaFormat ; styleSwatchConversionMediaFormat ; imageMagickMediaConversionStrategy ; -resize 30x30 -background white -gravity center -extent 30x30
+; 515Wx515H  ; zoomConversionMediaFormat        ; zoomConversionMediaFormat        ; imageMagickMediaConversionStrategy ; -resize 515x515 -background white -gravity center -extent 515x515

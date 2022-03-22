@@ -1,0 +1,14 @@
+INSERT_UPDATE ServicelayerJob;code[unique=true];springId
+;shoppingNewPartWorkflowJob;shoppingNewPartWorkFlowCronJob
+
+
+INSERT_UPDATE Cronjob;code[unique=true];job(code);sessionLanguage(isocode)[default=en]
+;shoppingNewPartWorkflowCronJob;shoppingNewPartWorkflowJob;
+
+
+INSERT_UPDATE Trigger;cronJob(code)[unique=true];cronExpression
+;shoppingNewPartWorkflowCronJob;0 0/5 * * * ?
+
+#################################################################################################
+##URL  https://www.netiq.com/documentation/cloud-manager-2-5/ncm-reference/data/bexyssf.html  ###
+#################################################################################################

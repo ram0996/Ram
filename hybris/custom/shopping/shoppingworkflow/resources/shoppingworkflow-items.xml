@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<!--
+	ATTENTION: This is just an example file. You have to edit it according to your needs.
+-->
+
+<items 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="items.xsd">
+
+	<relations>
+			<relation localized="false" code="WorkflowAction2UserAssigned" autocreate="true" generate="true">
+				<deployment table="workflowaction2user" typecode="11000"/>
+				<sourceElement type="WorkflowAction" qualifier="workflowAction" cardinality="many">
+					<modifiers read="true" write="true" search="true"/>
+				</sourceElement>
+				<targetElement type="User" qualifier="usersAssigned" cardinality="many" collectiontype="collection">
+					<modifiers read="true" write="true" search="true"/>
+				</targetElement>
+			</relation>
+	</relations>
+		
+	<itemtypes>
+		<itemtype code="NewPartProcess" autocreate="true" generate="true" extends="BusinessProcess">
+			<deployment table="newPartProcess" typecode="11001"/>
+				<attributes>
+					<attribute type="Product" qualifier="part">
+						<description>Associated Part Code for process</description>
+						<modifiers/>
+						<persistence type="property"/>
+					</attribute>
+					<attribute type="User" qualifier="currentUser">
+						<description>Current user working on process</description>
+						<modifiers/>
+						<persistence type="property"/>
+					</attribute>
+				</attributes>
+		</itemtype>
+		
+		<itemtype code="WorkflowAction" autocreate="false" generate="false">
+			<attributes>
+				<attribute type="UserCollection" qualifier="assignedUsers">
+					<modifiers/>
+					<persistence type="property"/>
+				</attribute>
+			</attributes>
+		</itemtype>
+		
+		<itemtype code="NewPartsCronJob" extends="CronJob">
+			<attributes>
+				<attribute type="java.lang.String" qualifier="flexiSearch">
+					<modifiers/>
+					<persistence type="property">
+						<columntype>
+							<value>HYBRIS.LONG_STRING</value>
+						</columntype>
+					</persistence>
+				
+				</attribute>
+			</attributes>
+		</itemtype>
+
+	</itemtypes>
+</items>

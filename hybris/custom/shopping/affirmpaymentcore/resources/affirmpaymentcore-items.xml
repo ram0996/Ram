@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2018 SAP SE or an SAP affiliate company. All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<!--
+	ATTENTION: This is just an example file. You have to edit it according to your needs.
+-->
+
+<items 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+			xsi:noNamespaceSchemaLocation="items.xsd">
+	<collectiontypes>
+		<collectiontype code="AffirmPromoMessageList" elementtype="AffirmPromoMessage" autocreate="true" generate="false" />
+		<collectiontype code="AffirmPageConfigCollection" elementtype="AffirmPageConfig"/>
+		<collectiontype code="PaymentThresholdList" elementtype="PaymentThreshold"/>
+	</collectiontypes>
+
+	<enumtypes>
+		<enumtype code="AffirmPromoPageType" autocreate="true" generate="true" dynamic="true">
+			<description>The type of page to display the affirm promotion message</description>
+			<value code="CATEGORY" />
+			<value code="PDP" />
+			<value code="CART" />
+		</enumtype>
+        <enumtype code="PaymentTransactionType" autocreate="false" generate="false">
+            <value code="INITIATE"/>
+            <value code="UPDATE"/>
+        </enumtype>
+	</enumtypes>
+
+    <maptypes>
+        <maptype code="StringMap" argumenttype="java.lang.String" returntype="java.lang.String" generate="true" autocreate="true" />
+    </maptypes>
+
+
+    <itemtypes>
+		<typegroup name="Affirm Changes">
+            <itemtype code="AbstractOrder" autocreate="false" generate="false">
+                <attributes>
+                    <attribute qualifier="totalIncludingTax" type="java.lang.Double">
+                        <persistence type="dynamic" attributeHandler="cartTotalIncludingTaxAttribute" />
+                    </attribute>
+                </attributes>
+            </itemtype>
+
+            <itemtype code="AffirmPaymentInfo"
+                      extends="PaymentInfo"
+                      jaloclass="de.hybris.platform.jalo.order.payment.AffirmPaymentInfo"
+                      autocreate="true"
+                      generate="true">
+                <attributes>
+
+                </attributes>
+            </itemtype>
+
+            <itemtype code="AffirmPaymentTransactionEntry" extends="PaymentTransactionEntry"
+                      jaloclass="com.affirm.payment.jalo.AffirmPaymentTransactionEntry"
+                      autocreate="true" generate="true">
+                <description>Extending the payment transaction entry with a new long string attribute</description>
+                <attributes>
+                    <attribute qualifier="authorisationJSON" type="java.lang.String">
+                        <description>long detailed description of material care.</description>
+                        <modifiers/>
+                        <persistence type="property">
+                            <columntype database="oracle">
+                                <value>varchar2(4000)</value>
+                            </columntype>
+                            <columntype database="mysql">
+                                <value>text</value>
+                            </columntype>
+                            <columntype database="sqlserver">
+                                <value>nvarchar(max)</value>
+                            </columntype>
+                            <columntype database="hsqldb">
+                                <value>LONGVARCHAR</value>
+                            </columntype>
+                        </persistence>
+                    </attribute>
+                    <attribute qualifier="properties" type="StringMap">
+                        <modifiers  />
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+            </itemtype>
+
+			<itemtype code="AffirmPromoMessage" extends="GenericItem" jaloclass="com.affirm.payment.jalo.AffirmPromoMessage" autocreate="true" generate="true">
+				<description>This is to define promotion messages for Affirm for category and product pages</description>
+				<deployment table="AffirmPromoMessage" typecode="20000"/>
+				<attributes>
+					<attribute qualifier="affirmPromoMessageCode" type="java.lang.String">
+						<modifiers read="true" write="true" unique="true"/>
+						<persistence type="property"/>
+					</attribute>
+						<attribute qualifier="affirmPromotionMessage" type="java.lang.String">
+						<modifiers read="true" write="true"/>
+						<persistence type="property"/>
+					</attribute>
+					<attribute qualifier="affirmPageType" type="AffirmPromoPageType">
+						<modifiers read="true" write="true"/>
+						<persistence type="property"/>
+					</attribute>
+				</attributes>
+			</itemtype>
+
+			<itemtype code="AffirmPageConfig" extends="GenericItem" jaloclass="com.affirm.payment.jalo.AffirmPageConfig" autocreate="true" generate="true">
+				<description>This is to define Affirm related web configurations to display promotion messages</description>
+				<deployment table="AffirmPageConfig" typecode="21000"/>
+				<attributes>
+					<attribute qualifier="affirmConfigCode" type="java.lang.String">
+						<modifiers read="true" write="true" unique="true"/>
+						<persistence type="property"/>
+					</attribute>
+					<attribute qualifier="affirmPromoMessageList" type="AffirmPromoMessageList">
+						<modifiers read="true" write="true"/>
+						<persistence type="property"/>
+					</attribute>
+					<attribute qualifier="showAffirmPromotionFlag" type="java.lang.Boolean">
+						<modifiers read="true" write="true" optional="false"/>
+						<defaultvalue>Boolean.FALSE</defaultvalue>
+						<persistence type="property"/>
+					</attribute>
+				</attributes>
+			</itemtype>
+			<itemtype code="AffirmConfigContainer" extends="GenericItem" jaloclass="com.affirm.payment.jalo.AffirmConfigContainer" autocreate="true" generate="true">
+				<description>This is the container for holding affirm related configurations</description>
+				<deployment table="AffirmConfigContainer" typecode="22000"/>
+				<attributes>
+					<attribute qualifier="affirmContainerCode" type="java.lang.String">
+						<modifiers read="true" write="true" unique="true"/>
+						<persistence type="property"/>
+					</attribute>
+				   <attribute qualifier="enabled" type="boolean">
+						<modifiers />
+						<persistence type="property"/>
+						<defaultvalue>Boolean.TRUE</defaultvalue>
+				   </attribute>
+				   <attribute qualifier="authAndCapture" type="boolean">
+						<modifiers />
+						<persistence type="property"/>
+						<defaultvalue>Boolean.FALSE</defaultvalue>
+				   </attribute>
+				   <attribute qualifier="modalMode" type="boolean">
+						<modifiers />
+						<persistence type="property"/>
+						<defaultvalue>Boolean.FALSE</defaultvalue>
+				   </attribute>
+					<attribute qualifier="affirmPublicKey" type="java.lang.String">
+						<persistence type="property" />
+					</attribute>
+                    <attribute qualifier="affirmPrivateKey" type="java.lang.String">
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="affirmScriptUrl" type="java.lang.String">
+						<persistence type="dynamic" attributeHandler="affirmScriptUrlAttribute"/>
+						<modifiers read="true" />
+					</attribute>
+					<attribute qualifier="sandboxMode" type="boolean">
+						<modifiers/>
+						<persistence type="property"/>
+						<defaultvalue>Boolean.TRUE</defaultvalue>
+					</attribute>
+					<attribute qualifier="affirmPageConfig" type="AffirmPageConfigCollection">
+						<persistence type="property" />
+					</attribute>
+				   <attribute qualifier="endpoint" type="java.lang.String">
+						<persistence type="dynamic" attributeHandler="affirmEndpointUrlAttribute"/>
+						<modifiers read="true"/>
+				   </attribute>
+				   <attribute qualifier="vcnMode" type="boolean">
+						<modifiers />
+						<persistence type="property"/>
+						<defaultvalue>Boolean.FALSE</defaultvalue>
+				   </attribute>
+				   <attribute qualifier="analyticsEnabled" type="boolean">
+						<modifiers />
+						<persistence type="property"/>
+						<defaultvalue>Boolean.FALSE</defaultvalue>
+				   </attribute>
+				</attributes>
+			</itemtype>
+
+            <itemtype code="BaseSite" autocreate="false" generate="false">
+                <description>Extends existing type with additional attributes for Affirm.</description>
+                <attributes>
+                    <attribute qualifier="affirmConfigContainer" type="AffirmConfigContainer">
+                        <persistence type="property" />
+                    </attribute>
+                </attributes>
+            </itemtype>
+
+            <itemtype code="PaymentThreshold" autocreate="true" generate="true"
+                      extends="GenericItem" jaloclass="com.affirm.payment.jalo.PaymentThreshold">
+                <deployment table="paymentthreshold" typecode="22001" />
+                <attributes>
+                    <attribute type="java.lang.Double" qualifier="threshold">
+                        <description>Threshold value</description>
+                        <modifiers optional="false" initial="true"/>
+                        <persistence type="property" />
+                    </attribute>
+                    <attribute type="Currency" qualifier="currency">
+                        <description>Currency</description>
+                        <modifiers optional="false" initial="true"/>
+                        <persistence type="property" />
+                    </attribute>
+                    <attribute type="boolean" qualifier="minimumMode">
+                        <description>The flag to indicate if it is a minimum or maximum treshold</description>
+                        <modifiers />
+                        <persistence type="property" />
+                    </attribute>
+
+                </attributes>
+            </itemtype>
+
+            <itemtype code="PaymentMode" autocreate="false" generate="false">
+                <description>Extending the payment mode to support threshold</description>
+                <attributes>
+                    <attribute qualifier="thresholds" type="PaymentThresholdList" autocreate="true" >
+                        <persistence type="property"/>
+                        <modifiers />
+                    </attribute>
+                </attributes>
+            </itemtype>
+
+            <itemtype code="CreditCardPaymentInfo" autocreate="false" generate="false">
+                <description>Extending CreditCardPaymentInfo type with additional attributes.</description>
+                <attributes>
+                    <attribute qualifier="affirmVCNId" type="java.lang.String">
+                        <description>Determines whether the subscription ID has been validated.</description>
+                        <persistence type="property" />
+                    </attribute>
+                </attributes>
+            </itemtype>
+
+		</typegroup>
+	</itemtypes>
+</items>

@@ -1,0 +1,42 @@
+# Macros / Replacement Parameter definitions
+$productCatalog=shoppingProductCatalog
+$productCatalogName=Shopping Product Catalog
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$vendor=default
+
+# Create some Warehouses for the Vendor
+INSERT_UPDATE Warehouse;code[unique=true];vendor(code)[forceWrite=true];default[default='true']
+"#% beforeEach:
+import de.hybris.platform.core.Registry;
+import de.hybris.platform.ordersplitting.model.WarehouseModel;
+String warehouseCode = line.get(Integer.valueOf(1));
+WarehouseModel warehouse;
+try
+{
+    warehouse = Registry.getApplicationContext().getBean(""warehouseService"").getWarehouseForCode(warehouseCode);
+}
+catch (Exception e)
+{
+    warehouse = null;
+}
+if (warehouse != null)
+{
+    line.clear();
+}"
+;warehouse_HYD;default
+
+# Create Stock levels at the Warehouses for Products
+INSERT_UPDATE StockLevel;available[unique=true];warehouse(code)[unique=true];inStockStatus(code);maxPreOrder;maxStockLevelHistoryCount;overSelling;preOrder;productCode[unique=true];reserved
+;100000;warehouse_HYD;forceInStock;0;0;0;0;1001111;0
+;100000;warehouse_HYD;forceInStock;0;0;0;0;1001111_B_XL;0
+;100000;warehouse_HYD;forceInStock;0;0;0;0;1001111_B_XXL;0
+;100000;warehouse_HYD;forceInStock;0;0;0;0;1001111_B_L;0
+;100000;warehouse_HYD;forceInStock;0;0;0;0;1001111_R_XL;0
+;100000;warehouse_HYD;forceInStock;0;0;0;0;1001111_R_XXL;0
+;100000;warehouse_HYD;forceInStock;0;0;0;0;1001111_R_L;0
+;100000;warehouse_HYD;forceInStock;0;0;0;0;1001111_G_XL;0
+;100000;warehouse_HYD;forceInStock;0;0;0;0;1001111_G_XXL;0
+;100000;warehouse_HYD;forceInStock;0;0;0;0;1001111_G_L;0
+;100000;warehouse_HYD;forceInStock;0;0;0;0;1001111_B;0
+;100000;warehouse_HYD;forceInStock;0;0;0;0;1001111_R;0
+;100000;warehouse_HYD;forceInStock;0;0;0;0;1001111_G;0

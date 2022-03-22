@@ -1,0 +1,24 @@
+$contentCatalog=shoppingContentCatalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Online])[default=$contentCatalog:Online]
+
+UPDATE GenericItem[processor=de.hybris.platform.commerceservices.impex.impl.ConfigPropertyImportProcessor];pk[unique=true]
+$emailResource=$config-emailResourceValue
+
+# Email page Template
+INSERT_UPDATE EmailPageTemplate;$contentCV[unique=true];uid[unique=true];name;active;frontendTemplateName;subject(code);htmlTemplate(code);restrictedPageTypes(code)
+;;productApprovalWorkflowTemplate;Product Approval Workflow Template;true;ProductApprovalWorkflowEmail;productApprovalWorkflowSubject;productApprovalWorkflowBody;EmailPage
+
+
+INSERT_UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);defaultPage;approvalStatus(code)[default='approved']
+;;ProductApprovalWorkflowEmail;Product Approval Workflow Email;productApprovalWorkflowTemplate;true;
+
+INSERT_UPDATE RendererTemplate;code[unique=true];contextClass;rendererType(code)[default='velocity']
+;productApprovalWorkflowSubject;com.shopping.workflow.email.context.ShoppingProductApprovalWorkflowEmailContext;
+;productApprovalWorkflowBody;com.shopping.workflow.email.context.ShoppingProductApprovalWorkflowEmailContext;
+
+INSERT_UPDATE RendererTemplate;code[unique=true];description[lang=en];templateScript[lang=en, translator=de.hybris.platform.commerceservices.impex.impl.FileLoaderValueTranslator]
+;productApprovalWorkflowSubject;Product Approval Workflow Subject;$emailResource/email-productApprovalWorkflowSubject.vm
+;productApprovalWorkflowBody;Product Approval Workflow Body;$emailResource/email-productApprovalWorkflowBody.vm
+
+INSERT_UPDATE EmailPage;$contentCV[unique=true];uid[unique=true];fromEmail[lang=en];fromName[lang=en]
+;;ProductApprovalWorkflowEmail;"donotreply@shopping.com";"Shopping Store"
