@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2018 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<!--
+	ATTENTION: This is just an example file. You have to edit it according to your needs.
+-->
+
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="beans.xsd">
+
+
+
+    <bean class="com.affirm.checkout.pojo.AffirmMerchantData">
+        <property name="user_confirmation_url" type="String"/>
+        <property name="user_cancel_url" type="String"/>
+        <property name="user_confirmation_url_action" type="String"/>
+        <property name="name" type="String"/>
+    </bean>
+
+    <bean class="com.affirm.checkout.pojo.AffirmNameData">
+        <property name="first" type="String"/>
+        <property name="last" type="String"/>
+    </bean>
+
+    <bean class="com.affirm.checkout.pojo.AffirmAddressData">
+        <property name="line1" type="String"/>
+        <property name="line2" type="String"/>
+        <property name="city" type="String"/>
+        <property name="state" type="String"/>
+        <property name="zipcode" type="String"/>
+        <property name="country" type="String"/>
+    </bean>
+
+    <bean class="com.affirm.checkout.pojo.AffirmShippingData">
+        <property name="name" type="com.affirm.checkout.pojo.AffirmNameData"/>
+        <property name="address" type="com.affirm.checkout.pojo.AffirmAddressData"/>
+        <property name="phone_number" type="String"/>
+        <property name="email" type="String"/>
+    </bean>
+
+    <bean class="com.affirm.checkout.pojo.AffirmBillingData" extends="com.affirm.checkout.pojo.AffirmShippingData">
+    </bean>
+
+    <bean class="com.affirm.checkout.pojo.AffirmItemData" >
+        <property name="display_name" type="String"/>
+        <property name="sku" type="String"/>
+        <property name="unit_price" type="java.math.BigInteger"/>
+        <property name="qty" type="java.math.BigInteger"/>
+        <property name="item_image_url" type="String"/>
+        <property name="item_url" type="String"/>
+        <property name="categories" type="java.lang.Object[]"/>
+    </bean>
+
+    <bean class="com.affirm.checkout.pojo.AffirmCheckoutData">
+        <property name="merchant" type="com.affirm.checkout.pojo.AffirmMerchantData"/>
+        <property name="shipping" type="com.affirm.checkout.pojo.AffirmShippingData"/>
+        <property name="billing" type="com.affirm.checkout.pojo.AffirmBillingData"/>
+        <property name="items" type="java.lang.Object[]"/>
+        <property name="discounts" type="java.util.Map&lt;java.lang.String,java.util.Map&lt;java.lang.String,Object>>"/>
+        <property name="metadata" type="com.affirm.checkout.pojo.AffirmMetadata"/>
+        <property name="order_id" type="String"/>
+        <property name="shipping_amount" type="java.math.BigInteger"/>
+        <property name="tax_amount" type="java.math.BigInteger"/>
+        <property name="total" type="java.math.BigInteger"/>
+    </bean>
+
+    <bean class="com.affirm.checkout.pojo.AffirmMetadata">
+        <property name="platform_type" type="String"/>
+        <property name="platform_version" type="String"/>
+        <property name="platform_affirm" type="String"/>
+        <property name="shipping_type" type="String"/>
+        <property name="mode" type="String"/>
+    </bean>
+
+    <bean class="com.affirm.checkout.pojo.AffirmLoanUpdateRequestData">
+        <property name="orderId" type="String"/>
+        <property name="shippingCarrier" type="String"/>
+        <property name="shippingConfirmation" type="String"/>
+        <property name="shipping" type="com.affirm.checkout.pojo.AffirmShippingData"/>
+    </bean>
+
+    <bean class="de.hybris.platform.commercefacades.order.data.CCPaymentInfoData">
+        <property name="affirmVCNId" type="String"/>
+    </bean>
+
+    <bean class="com.affirm.checkout.pojo.AffirmOrderTracking">
+        <property name="storeName" type="String"/>
+        <property name="coupon" type="String"/>
+        <property name="currency" type="String"/>
+        <property name="discount" type="java.math.BigDecimal"/>
+        <property name="paymentMethod" type="String"/>
+        <property name="revenue" type="java.math.BigDecimal"/>
+        <property name="shipping" type="java.math.BigDecimal"/>
+        <property name="shippingMethod" type="String"/>
+        <property name="tax" type="java.math.BigDecimal"/>
+        <property name="orderId" type="String"/>
+        <property name="checkoutId" type="String"/>
+        <property name="total" type="java.math.BigDecimal"/>
+    </bean>
+
+    <bean class="com.affirm.checkout.pojo.AffirmOrderItemTracking">
+        <property name="brand" type="String"/>
+        <property name="category" type="String"/>
+        <property name="coupon" type="String"/>
+        <property name="name" type="String"/>
+        <property name="price" type="java.math.BigDecimal"/>
+        <property name="productId" type="String"/>
+        <property name="quantity" type="java.lang.Long"/>
+        <property name="variant" type="java.lang.String"/>
+        <property name="currency" type="java.lang.String"/>
+    </bean>
+
+    <bean class="com.affirm.checkout.pojo.AffirmOrderTrackingResult">
+        <property name="order" type="com.affirm.checkout.pojo.AffirmOrderTracking"/>
+        <property name="products" type="java.lang.Object[]"/>
+    </bean>
+
+    <bean class="de.hybris.platform.commercefacades.order.data.OrderData">
+        <property name="paymentMode" type="String"/>
+    </bean>
+
+
+
+</beans>

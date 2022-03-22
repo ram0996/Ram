@@ -1,0 +1,49 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Prices
+
+# Macros / Replacement Parameter definitions
+$productCatalog=shoppingProductCatalog
+
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default='$productCatalog:Staged']
+$taxGroup=Europe1PriceFactory_PTG(code)[default=jp-vat-full]
+
+# Set product approval status to Approved only for those products that have prices.
+$approved=approvalstatus(code)[default='approved']
+
+UPDATE Product;code[unique=true];$approved;$catalogVersion;$taxGroup
+;1001111;;;
+;1001111_B_XL;;;
+;1001111_R_XL;;;
+;1001111_G_XL;;;
+;1001111_B_XXL;;;
+;1001111_R_XXL;;;
+;1001111_G_XXL;;;
+;1001111_B_L;;;
+;1001111_R_L;;;
+;1001111_G_L;;;
+;1001111_B;;;
+;1001111_R;;;
+;1001111_G;;;
+
+INSERT_UPDATE PriceRow;productId[unique=true];unit(code[unique=true,default=pieces]);currency(isocode)[unique=true];price;minqtd;unitFactor;net
+;1001111;pieces;INR;555.50;1;1;false
+;1001111_B_XL;pieces;INR;555.50;1;1;false
+;1001111_R_XL;pieces;INR;555.50;1;1;false
+;1001111_G_XL;pieces;INR;555.50;1;1;false
+;1001111_B_XXL;pieces;INR;555.50;1;1;false
+;1001111_R_XXL;pieces;INR;555.50;1;1;false
+;1001111_G_XXL;pieces;INR;555.50;1;1;false
+;1001111_B_L;pieces;INR;555.50;1;1;false
+;1001111_R_L;pieces;INR;555.50;1;1;false
+;1001111_G_L;pieces;INR;555.50;1;1;false
+;1001111_B;pieces;INR;555.50;1;1;false
+;1001111_R;pieces;INR;555.50;1;1;false
+;1001111_G;pieces;INR;555.50;1;1;false
+
+
+INSERT_UPDATE PriceRow;product(code,$catalogVersion)[unique=true];unit(code[unique=true,default=pieces]);currency(isocode)[unique=true];price;minqtd[unique=true];unitFactor;net;$catalogVersion
+;1001111_G;pieces;INR;550.00;1;1;false;
+;1001111_G;pieces;INR;530.00;5;1;false;
+;1001111_G;pieces;INR;500.00;50;1;false;

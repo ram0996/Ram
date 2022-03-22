@@ -1,0 +1,37 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Product Localisations
+ 
+# Macros / Replacement Parameter definitions
+$productCatalog=shoppingProductCatalog
+$productCatalogName=Shopping Product Catalog
+
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+
+# Language
+$lang=en
+
+# Update allProducts with localisations
+UPDATE Product;code[unique=true];$catalogVersion;name[lang=$lang];summary[lang=$lang];description[lang=$lang];ShoppingStyleVariantProduct.style[lang=$lang];ShoppingSizeVariantProduct.size[lang=$lang]
+;1001111;;U.S.Polo Skinny Jeans;us-polo-assn-denim-co-men-blue-washed-regallo-skinny-fit-jeans-DEOC8TX1OIB;  <ul ><li>Mid-rise</li><li >Button waist and zip fly</li><li >Five pockets</li><li >Washed</li><li >Brand fit: Regallo fit</li><li >Fit Mapping: Skinny fit</li><li >Country Of Origin - India</li></ul>
+;2001111;;U.S.Polo Skinny Jeans;us-polo-assn-denim-co-men-blue-washed-regallo-skinny-fit-jeans-DEOC8TX1OIB;  <ul ><li>Mid-rise</li><li >Button waist and zip fly</li><li >Five pockets</li><li >Washed</li><li >Brand fit: Regallo fit</li><li >Fit Mapping: Skinny fit</li><li >Country Of Origin - India</li></ul>
+;3001111;;U.S.Polo Skinny Jeans;us-polo-assn-denim-co-men-blue-washed-regallo-skinny-fit-jeans-DEOC8TX1OIB;  <ul ><li>Mid-rise</li><li >Button waist and zip fly</li><li >Five pockets</li><li >Washed</li><li >Brand fit: Regallo fit</li><li >Fit Mapping: Skinny fit</li><li >Country Of Origin - India</li></ul>
+;1001111_B;;U.S.Polo Skinny Jeans black;U.S.Polo Skinny Jeans black;;BLACK;
+;1001111_R;;U.S.Polo Skinny Jeans red;U.S.Polo Skinny Jeans red;;RED;
+;1001111_G;;U.S.Polo Skinny Jeans green;U.S.Polo Skinny Jeans green;;GREEN;
+;1001111_B_XL;;U.S.Polo Skinny Jeans black;U.S.Polo Skinny Jeans black;;BLACK;XL
+;1001111_B_XXL;;U.S.Polo Skinny Jeans black;U.S.Polo Skinny Jeans black;;BLACK;XXL
+;1001111_B_L;;U.S.Polo Skinny Jeans black;U.S.Polo Skinny Jeans black;;BLACK;L
+;1001111_R_XL;;U.S.Polo Skinny Jeans red;U.S.Polo Skinny Jeans red;;RED;XL
+;1001111_R_XXL;;U.S.Polo Skinny Jeans red;U.S.Polo Skinny Jeans red;;RED;XXL
+;1001111_R_L;;U.S.Polo Skinny Jeans red;U.S.Polo Skinny Jeans red;;RED;L
+;1001111_G_XL;;U.S.Polo Skinny Jeans green;U.S.Polo Skinny Jeans green;;GREEN;XL
+;1001111_G_XXL;;U.S.Polo Skinny Jeans green;U.S.Polo Skinny Jeans green;;GREEN;XXL
+;1001111_G_L;;U.S.Polo Skinny Jeans green;U.S.Polo Skinny Jeans green;;GREEN;L
+
+;10001111;;U.S.Polo Women Jeans;U.S.Polo Women Jeans;;;
+;10001111_B;;U.S.Polo Women Jeans Black;U.S.Polo Women Jeans Black;;BLACK;
+
+;10011111;;U.S.Polo Women Jeans;U.S.Polo Women Jeans;;;
+;10011111_B;;U.S.Polo Women Jeans Black;U.S.Polo Women Jeans Black;;BLACK;

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2018 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<config xmlns="http://www.hybris.com/cockpit/config">
+
+		<context merge-by="type" parent="BaseSite" type="CMSSite" component="editor-area">
+			<editorArea:editorArea xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea">
+				<editorArea:tab name="hmc.administration" merge-mode="append">
+					<editorArea:section name="hmc.section.cms.admin" merge-mode="append">
+						<editorArea:attribute xmlns="http://www.hybris.com/cockpitng/config/editorArea" qualifier="affirmConfigContainer" />
+					</editorArea:section>
+				</editorArea:tab>
+			</editorArea:editorArea>
+		</context>
+
+		<context merge-by="module" component="listview"  type="AffirmConfigContainer" parent="GenericItem" >
+			<list-view:list-view xmlns:list-view="http://www.hybris.com/cockpitng/component/listView">
+				<list-view:column qualifier="affirmContainerCode"/>
+				<list-view:column qualifier="enabled"/>
+				<list-view:column qualifier="authAndCapture"/>
+				<list-view:column qualifier="affirmPublicKey" />
+				<list-view:column qualifier="affirmPageConfig" />
+			</list-view:list-view>
+		</context>
+
+    <context merge-by="module" parent="auto" component="explorer-tree">
+        <explorer-tree:explorer-tree xmlns:explorer-tree="http://www.hybris.com/cockpitng/config/explorertree">
+            <explorer-tree:navigation-node id="hmc_treenode_marketing">
+                <explorer-tree:type-node code="CustomerReview" id="hmc_type_tree_customerreview"/>
+            </explorer-tree:navigation-node>
+        </explorer-tree:explorer-tree>
+    </context>
+    <context merge-by="type" parent="GenericItem" type="AffirmConfigContainer" component="listview">
+        <list-view:list-view xmlns:list-view="http://www.hybris.com/cockpitng/component/listView">
+            <list-view:column qualifier="affirmContainerCode"/>
+            <list-view:column qualifier="enabled"/>
+            <list-view:column qualifier="authAndCapture"/>
+            <list-view:column qualifier="affirmPublicKey"/>
+            <list-view:column qualifier="affirmPageConfig"/>
+        </list-view:list-view>
+    </context>
+
+    <context merge-by="type" parent="GenericItem" type="AffirmConfigContainer" component="advanced-search">
+        <advanced-search:advanced-search xmlns:advanced-search="http://www.hybris.com/cockpitng/config/advancedsearch">
+            <advanced-search:field-list>
+                <advanced-search:field xmlns="http://www.hybris.com/cockpitng/config/advancedsearch" name="affirmContainerCode" selected="false"/>
+                <advanced-search:field xmlns="http://www.hybris.com/cockpitng/config/advancedsearch" name="enabled" selected="true"/>
+                <advanced-search:field xmlns="http://www.hybris.com/cockpitng/config/advancedsearch" name="authAndCapture" selected="true"/>
+                <advanced-search:field xmlns="http://www.hybris.com/cockpitng/config/advancedsearch" name="affirmPublicKey" selected="false"/>
+                <advanced-search:field xmlns="http://www.hybris.com/cockpitng/config/advancedsearch" name="affirmPageConfig" selected="true"/>
+            </advanced-search:field-list>
+        </advanced-search:advanced-search>
+    </context>
+
+	<context merge-by="type" parent="GenericItem" type="AffirmConfigContainer" component="editor-area" >
+		<editorArea:editorArea xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea" >
+			<editorArea:essentials>
+				<editorArea:essentialSection name="hmc.essential" merge-mode="REMOVE">
+				</editorArea:essentialSection>
+			</editorArea:essentials>
+			<editorArea:tab name="hmc.properties" merge-mode="replace" position="100">
+				<editorArea:section name="hmc.common">
+					<editorArea:attribute qualifier="affirmContainerCode"/>
+					<editorArea:attribute qualifier="enabled"/>
+					<editorArea:attribute qualifier="sandboxMode"/>
+					<editorArea:attribute qualifier="authAndCapture"/>
+					<editorArea:attribute qualifier="modalMode"/>
+					<editorArea:attribute qualifier="vcnMode"/>
+					<editorArea:attribute qualifier="analyticsEnabled" />
+					<editorArea:attribute qualifier="affirmPrivateKey"/>
+					<editorArea:attribute qualifier="affirmPublicKey"/>
+					<editorArea:attribute qualifier="affirmPageConfig"/>
+				</editorArea:section>
+			</editorArea:tab>
+			<editorArea:tab name="hmc.administration" merge-mode="replace" position="101">
+				<editorArea:section name="hmc.section.metadata" merge-mode="replace">
+					<editorArea:attribute qualifier="pk"/>
+					<editorArea:attribute qualifier="itemtype"/>
+					<editorArea:attribute qualifier="creationtime"/>
+					<editorArea:attribute qualifier="modifiedtime"/>
+					<editorArea:attribute qualifier="owner"/>
+				</editorArea:section>
+				<editorArea:section name="hmc.section.saved.values">
+					<editorArea:attribute qualifier="savedValues"/>
+				</editorArea:section>
+			</editorArea:tab>
+		</editorArea:editorArea>
+	</context>
+
+
+	<context type="AffirmConfigContainer" component="base" merge-by="type" parent="GenericItem">
+		<y:base xmlns:y="http://www.hybris.com/cockpit/config/hybris">
+			<y:labels>
+				<y:label>affirmContainerCode</y:label>
+			</y:labels>
+		</y:base>
+	</context>
+
+
+	<context merge-by="type" parent="GenericItem" type="AffirmPageConfig" component="editor-area">
+		<editorArea:editorArea xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea">
+			<editorArea:tab name="hmc.administration" merge-mode="replace">
+				<editorArea:section name="hmc.section.metadata" merge-mode="replace">
+					<editorArea:attribute qualifier="pk"/>
+					<editorArea:attribute qualifier="itemtype"/>
+					<editorArea:attribute qualifier="creationtime"/>
+					<editorArea:attribute qualifier="modifiedtime"/>
+					<editorArea:attribute qualifier="owner"/>
+				</editorArea:section>
+				<editorArea:section name="hmc.section.saved.values">
+					<editorArea:attribute qualifier="savedValues"/>
+				</editorArea:section>
+				<editorArea:section name="hmc.administration" merge-mode="replace">
+					<editorArea:attribute qualifier="affirmConfigCode"/>
+					<editorArea:attribute qualifier="affirmPromoMessageList"/>
+					<editorArea:attribute qualifier="showAffirmPromotionFlag"/>
+				</editorArea:section>
+			</editorArea:tab>
+		</editorArea:editorArea>
+	</context>
+
+
+	<context type="AffirmPageConfig" component="base" merge-by="type" parent="GenericItem">
+		<y:base xmlns:y="http://www.hybris.com/cockpit/config/hybris">
+			<y:labels>
+				<y:label>affirmConfigCode</y:label>
+			</y:labels>
+		</y:base>
+	</context>
+
+
+	<context merge-by="type" parent="GenericItem" type="AffirmPromoMessage" component="editor-area">
+		<editorArea:editorArea xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea">
+			<editorArea:tab name="hmc.administration" merge-mode="replace">
+				<editorArea:section name="hmc.section.metadata" merge-mode="replace">
+					<editorArea:attribute qualifier="pk"/>
+					<editorArea:attribute qualifier="itemtype"/>
+					<editorArea:attribute qualifier="creationtime"/>
+					<editorArea:attribute qualifier="modifiedtime"/>
+					<editorArea:attribute qualifier="owner"/>
+				</editorArea:section>
+				<editorArea:section name="hmc.section.saved.values">
+					<editorArea:attribute qualifier="savedValues"/>
+				</editorArea:section>
+				<editorArea:section name="hmc.administration" merge-mode="replace">
+					<editorArea:attribute qualifier="affirmPromoMessageCode"/>
+					<editorArea:attribute qualifier="affirmPromotionMessage"/>
+					<editorArea:attribute qualifier="affirmPageType"/>
+				</editorArea:section>
+			</editorArea:tab>
+		</editorArea:editorArea>
+	</context>
+
+
+	<context type="AffirmPromoMessage" component="base" merge-by="type" parent="GenericItem">
+		<y:base xmlns:y="http://www.hybris.com/cockpit/config/hybris">
+			<y:labels>
+				<y:label>affirmPromoMessageCode</y:label>
+			</y:labels>
+		</y:base>
+	</context>
+
+
+</config>

@@ -1,0 +1,32 @@
+# -----------------------------------------------------------------------
+# [y] hybris Platform
+#
+# Copyright (c) 2018 SAP SE or an SAP affiliate company.  All rights reserved.
+#
+# This software is the confidential and proprietary information of SAP
+# ("Confidential Information"). You shall not disclose such Confidential
+# Information and shall use it only in accordance with the terms of the
+# license agreement you entered into with SAP.
+# -----------------------------------------------------------------------
+$contentCatalog=electronicsContentCatalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
+$jarResourceCmsCockpit=jar:com.affirm.payment.constants.AffirmpaymentaddonConstants&/affirmpaymentaddon/import/cockpit/cmscockpit
+$addonExtensionName=affirmpaymentaddon
+
+INSERT_UPDATE PageTemplate;$contentCV[unique=true];uid[unique=true];name;frontendTemplateName;restrictedPageTypes(code);active[default=true]
+;;CategoryPageTemplate;Category Page Template;category/categoryPage;CategoryPage
+;;ProductListPageTemplate;Product List Page Template;addon:/$addonExtensionName/pages/category/productListPage;CategoryPage
+;;ProductGridPageTemplate;Product Grid Page Template;addon:/$addonExtensionName/pages/category/productGridPage;CategoryPage
+;;ProductDetailsPageTemplate;Product Details Page Template;addon:/$addonExtensionName/pages/product/productLayout1Page;ProductPage
+
+
+INSERT_UPDATE JspIncludeComponent;$contentCV[unique=true];uid[unique=true];name;page;actions(uid,$contentCV);&componentRef
+                                 ;;CartTotalsComponent;Cart Totals Display Component;/WEB-INF/views/addons/affirmpaymentaddon/responsive/pages/cart/cartTotalsDisplay.jsp;;CartTotalsComponent
+                                 ;;ProductDetailsTabComponent;Product Details Tab;/WEB-INF/views/addons/affirmpaymentaddon/responsive/pages/product/productDetailsTab.jsp;;ProductDetailsTabComponent
+                                 ;;OrderConfirmationTracking;Order Confirmation Tracking;/WEB-INF/views/addons/affirmpaymentaddon/responsive/pages/order/orderTracking.jsp;;OrderConfirmationTracking
+
+
+UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];cmsComponents(&componentRef)[mode=append]
+;;BodyContent-orderConfirmation;OrderConfirmationTracking
+
+orderConfirmationPage

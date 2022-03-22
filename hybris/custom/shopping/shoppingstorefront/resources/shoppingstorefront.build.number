@@ -1,0 +1,11 @@
+#Ant properties
+#Fri May 07 13:46:08 CEST 2021
+version.api=2005
+vendor=hybris
+group.id=de.hybris.platform
+name=shoppingstorefront
+description=shoppingstorefront
+builddate=20210507 1341
+releasedate=20200513 1957
+version=2005.12
+module.name=platform-module

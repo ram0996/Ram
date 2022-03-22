@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <import resource="affirmpayment-service-spring.xml" />
+
+
+    <bean id="affirmpaymentcoreSystemSetup" class="com.affirm.payment.core.setup.AffirmpaymentcoreSystemSetup">
+        <!-- constructor arg injection example -->
+        <constructor-arg ref="affirmPaymentCoreService"/>
+    </bean>
+
+    <bean id="affirmPaymentCoreService" class="com.affirm.payment.core.service.impl.DefaultAffirmPaymentCoreService">
+    </bean>
+
+    <bean id="affirmHTTPClient" class="com.affirm.payment.core.client.DefaultAffirmHTTPClient">
+    </bean>
+
+    <alias name="defaultAffirmPaymentTransactionStrategy" alias="affirmPaymentTransactionStrategy" />
+    <bean id="defaultAffirmPaymentTransactionStrategy" class="com.affirm.payment.core.service.impl.DefaultAffirmPaymentTransactionStrategy">
+        <property name="modelService" ref="modelService" />
+    </bean>
+
+
+    <bean id="cartTotalIncludingTaxAttribute" class="com.affirm.payment.attribute.CartTotalIncludingTaxAttribute"/>
+
+    <bean id="affirmScriptUrlAttribute" class="com.affirm.payment.attribute.AffirmScriptUrlAttribute">
+        <property name="liveScriptUrl" value="#{configurationService.configuration.getProperty('affirm.live.scripturl.endpoint')}"/>
+        <property name="sandboxScriptUrl" value="#{configurationService.configuration.getProperty('affirm.sandbox.scripturl.endpoint')}"/>
+    </bean>
+
+    <bean id="affirmEndpointUrlAttribute" class="com.affirm.payment.attribute.AffirmEndpointUrlAttribute">
+        <property name="liveEndpointUrl" value="#{configurationService.configuration.getProperty('affirm.live.endpoint.endpoint')}"/>
+        <property name="sandboxEndpointUrl" value="#{configurationService.configuration.getProperty('affirm.sandbox.endpoint.endpoint')}"/>
+    </bean>
+
+    <alias name="defaultAffirmPaymentService" alias="affirmPaymentService" />
+    <bean id="defaultAffirmPaymentService" class="com.affirm.payment.service.impl.DefaultAffirmPaymentService"/>
+
+    <alias name="defaultAffirmOrderDAO" alias="affirmOrderDAO" />
+    <bean id="defaultAffirmOrderDAO" class="com.affirm.payment.dao.impl.DefaultAffirmOrderDAO"/>
+
+    <alias name="extendedDefaultCyberSourceAcceleratorPaymentService" alias="acceleratorPaymentService"/>
+    <bean id="extendedDefaultCyberSourceAcceleratorPaymentService" parent="defaultCyberSourceAcceleratorPaymentService" class="com.affirm.payment.service.impl.ExtendedDefaultAcceleratorPaymentService">
+    </bean>
+
+    <alias name="defaultreturnRequestPrepareInterceptor" alias="returnRequestPrepareInterceptor" />
+    <bean id="defaultreturnRequestPrepareInterceptor" class="com.affirm.payment.interceptor.ReturnRequestPrepareInterceptor" />
+
+    <bean id="returnRequestPrepareInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="returnRequestPrepareInterceptor"/>
+        <property name="typeCode" value="ReturnRequest"/>
+    </bean>
+
+
+	<alias name="defaultAffirmReferenceImmediateCancelRequestExecutor" alias="immediateCancelRequestExecutor"/>
+    <bean id="defaultAffirmReferenceImmediateCancelRequestExecutor" parent="defaultImmediateCancelRequestExecutor">
+        <property name="paymentServiceAdapter" ref="affirmOrderCancelPaymentServiceAdapter"/>
+    </bean>
+    <bean id="affirmOrderCancelPaymentServiceAdapter" class="com.affirm.payment.service.impl.DefaultAffirmOrderCancelPaymentServiceAdapter"/>
+
+    <alias alias="returnActionAdapter" name="defaultAffirmReferenceReturnActionAdapter"/>
+    <bean id="defaultAffirmReferenceReturnActionAdapter" class="com.affirm.payment.service.impl.DefaultAffirmReferenceReturnActionAdapter"/>
+
+
+</beans>

@@ -1,0 +1,44 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Products
+
+# Macros / Replacement Parameter definitions
+$productCatalog=shoppingProductCatalog
+$productCatalogName=Shopping Product Catalog
+
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$supercategories=supercategories(code, $catalogVersion)
+$baseProduct=baseProduct(code,$catalogVersion)
+$approved=approvalstatus(code)[default='approved']
+$lang=en
+
+# Insert Products
+INSERT_UPDATE Product;code[unique=true];$supercategories;manufacturerName;manufacturerAID;unit(code);ean;variantType(code);$catalogVersion;$approved;genders(code)
+;1001111;100;U.S.Polo;554333111;pieces;99863015;ShoppingStyleVariantProduct;;;MALE
+;2001111;200;U.S.Polo;554333111;pieces;99863015;;;;MALE
+;3001111;300;Nike;554333111;pieces;99863015;;;;MALE
+;10001111;1000;U.S.Plo;5544333222211;pieces;99863015;ShoppingStyleVariantProduct;;;FEMALE
+;10011111;100;U.S.Plo;5544333222211;pieces;99863015;ShoppingStyleVariantProduct;;;FEMALE
+
+INSERT_UPDATE ShoppingStyleVariantProduct;code[unique=true];$catalogVersion;$baseProduct;unit(code);swatchColors(code);supercategories(code,$catalogVersion);varianttype(code);$approved
+;1001111_B;;1001111;pieces;BLACK;100;ShoppingSizeVariantProduct;
+;1001111_R;;1001111;pieces;RED;100;ShoppingSizeVariantProduct;
+;1001111_G;;1001111;pieces;GREEN;100;ShoppingSizeVariantProduct;
+;10001111_B;;10001111;pieces;BLACK;1000;;
+;10011111_B;;10011111;pieces;BLACK;100;;
+
+
+
+INSERT_UPDATE ShoppingSizeVariantProduct;code[unique=true];$catalogVersion;$baseProduct;supercategories(code,$catalogVersion);unit(code)[default='pieces'];$approved;swatchColors(code)
+;1001111_B_XL;;1001111_B;100;pieces;;BLACK
+;1001111_B_XXL;;1001111_B;100;pieces;;BLACK
+;1001111_B_L;;1001111_B;100;pieces;;BLACK
+
+;1001111_R_XL;;1001111_R;100;pieces;;RED
+;1001111_R_XXL;;1001111_R;100;pieces;;RED
+;1001111_R_L;;1001111_R;100;pieces;;RED
+
+;1001111_G_XL;;1001111_G;100;pieces;;GREEN
+;1001111_G_XXL;;1001111_G;100;pieces;;GREEN
+;1001111_G_L;;1001111_G;100;pieces;;GREEN

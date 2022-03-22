@@ -1,0 +1,38 @@
+# -----------------------------------------------------------------------
+# [y] hybris Platform
+#
+# Copyright (c) 2018 SAP SE or an SAP affiliate company.  All rights reserved.
+#
+# This software is the confidential and proprietary information of SAP
+# ("Confidential Information"). You shall not disclose such Confidential
+# Information and shall use it only in accordance with the terms of the
+# license agreement you entered into with SAP.
+# -----------------------------------------------------------------------
+#
+# Import the CMS Site configuration
+#
+
+$siteUid=apparel-uk
+
+INSERT_UPDATE AffirmPromoMessage;&affirmPromoMessageCode;affirmPromoMessageCode[unique=true];affirmPromotionMessage;affirmPageType(code)
+;AFFIRMMSG1;AFFIRMPROMO101;<p class="affirm-as-low-as" data-page-type="category" data-amount="%1$s" data-affirm-type="symbol" data-category="%2$s" data-brand="%3$s" data-sku="%4$s" data-promo-id="%5$s"></p>;CATEGORY
+;AFFIRMMSG2;AFFIRMPROMO102;<p class="affirm-as-low-as" data-page-type="product" data-amount="%1$s" data-affirm-type="symbol" data-sku="%4$s" data-brand="%3$s"></p>;PDP;
+;AFFIRMMSG3;AFFIRMPROMO103;<p class="affirm-as-low-as" data-page-type="cart" data-amount="%1$s" data-affirm-type="symbol"  data-category="%2$s" data-brand="%3$s" data-sku="%4$s" data-promo-id="%5$s"></p>;CART;
+
+INSERT_UPDATE AffirmPageConfig;&affirmConfigCode;affirmConfigCode[unique=true];affirmPromoMessageList(&affirmPromoMessageCode);showAffirmPromotionFlag
+;AFFIRM1;AFFIRM101;AFFIRMMSG1,AFFIRMMSG2,AFFIRMMSG3;true
+
+INSERT_UPDATE AffirmConfigContainer;&affirmContainerCode;affirmContainerCode[unique=true];affirmPublicKey();affirmPageConfig(&affirmConfigCode);affirmPrivateKey;enabled[default=true];
+;AFFIRMCONFIG1;AFFIRMCONFIG100;MY92PIS7UI8QLQB1;AFFIRM1;CNGMEH8Hb8sHtPj0puA6r15134Cc4RmY;;
+
+UPDATE BaseSite;uid[unique=true];affirmConfigContainer(&affirmContainerCode)
+;$siteUid;AFFIRMCONFIG1
+
+
+UPDATE BaseStore;uid[unique=true];deliveryCountries(isocode)[mode=append]
+;$siteUid;US
+
+# Set payment mode
+INSERT_UPDATE StandardPaymentMode;code[unique=true];name[lang=en];description[lang=en];active;paymentinfotype(code)
+;affirm;Affirm payment mode;Affirm payment mode;true;AffirmPaymentInfo
+

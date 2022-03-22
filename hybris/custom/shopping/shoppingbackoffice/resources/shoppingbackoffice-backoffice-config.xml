@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved
+-->
+	<config xmlns="http://www.hybris.com/cockpit/config"
+		xmlns:yc="http://www.hybris.com/cockpitng/config/common"
+		xmlns:y="http://www.hybris.com/cockpit/config/hybris"
+		xmlns:wz="http://www.hybris.com/cockpitng/config/wizard-config"
+		xmlns:cb="http://www.hybris.com/cockpitng/config/collectionbrowser"
+		xmlns:cv="http://www.hybris.com/cockpitng/component/compareview"
+		xmlns:lv="http://www.hybris.com/cockpitng/component/listView"
+		xmlns:ea="http://www.hybris.com/cockpitng/component/editorArea"
+		xmlns:et="http://www.hybris.com/cockpitng/config/explorertree"
+		xmlns:ss="http://www.hybris.com/cockpitng/config/simplesearch"
+		xmlns:as="http://www.hybris.com/cockpitng/config/advancedsearch"
+		xmlns:df="http://www.hybris.com/cockpitng/component/dynamicForms"
+		xmlns:dsb="http://www.hybris.com/cockpitng/config/dashboard"
+		xmlns:na="http://www.hybris.com/cockpitng/config/notifications"
+		xmlns:gv="http://www.hybris.com/cockpitng/component/gridView">
+
+	<context type="ShoppingCountryConfigData" component="create-wizard">
+		<wz:flow id="ShoppingCountryConfigData" title="create.title(ctx.TYPE_CODE)">
+			<wz:prepare id="groupPrepare">
+				<wz:initialize property="newCountryConfigData" type="ctx.TYPE_CODE"/>
+			</wz:prepare>
+			<wz:step id="step1" label="country.config.label" sublabel="country.config.sublebel">
+				<wz:content id="step1.content">
+					<wz:property-list root="newCountryConfigData">
+						<wz:property qualifier="country" position="10"/>
+						<wz:property qualifier="currency" position="20"/>
+					</wz:property-list>
+				</wz:content>
+				<wz:navigation id="step1.navigation">
+					<wz:cancel/>
+					<wz:next visible="!#empty(newCountryConfigData.country)"/>
+						<wz:done visible="!#empty(newCountryConfigData.country)">
+							<wz:save property="newCountryConfigData"/>
+						</wz:done>
+				</wz:navigation>
+			</wz:step>
+			<wz:step id="step2" label="part.restriction.label" sublabel="part.restriction.label">
+				<wz:content id="step2.content">
+					<wz:property-list root="newCountryConfigData">
+						<wz:property qualifier="partRestriction" position="10"/>
+					</wz:property-list>
+				</wz:content>
+				<wz:navigation id="step2.navigation">
+					<wz:cancel/>
+					<wz:next/>
+					<wz:back/>
+				</wz:navigation>
+			</wz:step>
+		</wz:flow>
+	</context>
+	
+	<context component="explorer-tree" merge-by="module">
+		<et:explorer-tree>	
+			<et:navigation-node id="hmc_treenode_ShoppingCountryConfigData">
+				<et:type-node code="ShoppingCountryConfigData" id="hmc_typenode_ShoppingCountryData"/>
+			</et:navigation-node>
+		</et:explorer-tree>
+	</context>
+	
+	<context type="ShoppingCountryConfigData" component="listview" module="shoppingbackoffice">
+		<lv:list-view>
+			<lv:column qualifier="country" />
+			<lv:column qualifier="currency" />
+			<lv:column qualifier="partRestriction" />
+		</lv:list-view>
+	</context>
+	<context module="shoppingbackoffice" type="ShoppingCountryConfigData" component="editor-area">
+		<ea:editorArea>
+			<ea:tab name="hmc.tab.shoppingcountry.config.common"
+				position="1">
+				<ea:section
+					name="hmc.tab.shoppingcountry.config.common">
+					<ea:attribute qualifier="country" />
+					<ea:attribute qualifier="currency" />
+					<ea:attribute qualifier="partRestriction" />
+				</ea:section>
+			</ea:tab>
+		</ea:editorArea>
+	</context>
+	<context type="ShoppingCountryConfigData" component="advanced-search" module="shoppingbackoffice">
+		<as:advanced-search>
+			<as:field-list>
+				<as:field name="country" operator="equals" selected="true" />
+				<as:field name="currency" operator="equals" selected="true" />
+				<as:field name="partRestriction" operator="equals" selected="true" />
+			</as:field-list>
+		</as:advanced-search>
+	</context>
+	<context type="ShoppingCountryConfigData" component="simple-search" module="shoppingbackoffice">
+		<ss:simple-search>
+			<ss:field name="country" />
+		</ss:simple-search>
+	</context>
+
+</config>

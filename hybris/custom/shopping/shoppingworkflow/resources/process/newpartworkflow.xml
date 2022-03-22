@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<process xmlns="http://www.hybris.de/xsd/processdefinition" start="informOfNewPartAction" name="newPartDefinition" processClass="com.te.workflows.model.NewPartProcessModel">
+
+	<action id="informOfNewPartAction" bean="informNewPartAction">
+		<transition name="OK" to="startApprovalWorkFlowAction" />
+		<transition name="PART_APPROVED" to="success" />
+	</action>
+	
+	<action id="startApprovalWorkFlowAction" bean="startApprovalWorkFlowAction">
+		<transition name="WAIT" to="promoteWaitProcess" />
+		<transition name="OK" to="success"/>
+		<transition name="NO_PM_FOUND" to="failed" />
+	</action>
+	
+	<!-- only one wait event is executing throughout the approval process therefore 
+		a single event name is used -->
+	<wait id="promoteWaitProcess" then="startApprovalWorkFlowAction" prependProcessCode="false">
+		<event>PROMOTE_WORKFLOW_COMPLETE_EVENT</event>
+		<timeout delay='PT240M' then='startApprovalWorkFlowAction'/>
+	</wait>
+	
+	<end id="error" state="ERROR">All went wrong</end>
+	<end id="success" state="SUCCEEDED">All went right</end>
+	<end id="failed" state="FAILED">Process Failed</end>
+	
+</process>
